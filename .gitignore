@@ -3,7 +3,8 @@
 !/dao/
 !/models/
 !/public/
-/public/static/
+!/public/static/
+/public/static/*
 /public/upload/
 !/routes/
 !/utils/
