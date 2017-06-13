@@ -1,0 +1,7 @@
+<!----------------------------------bootstrap------------------------------------->
+<link rel='stylesheet' href='/static/bootstrap/dist/css/bootstrap.min.css' />
+<link rel='stylesheet' href='/static/bootstrap/dist/css/bootstrap-theme.min.css' />
+
+
+<!----------------------------------自定义样式------------------------------------->
+<link rel='stylesheet' href='/stylesheets/style.css' />

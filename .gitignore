@@ -1,0 +1,16 @@
+/*
+!/bin/
+!/dao/
+!/models/
+!/public/images/
+!/public/javascripts/
+!/public/stylesheets/
+!/routes/
+!/utils/
+!/views/
+!*.js
+!*.json
+!*.md
+!.bowerrc
+!*test*.js
+!.gitignore

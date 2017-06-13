@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+{#stdRes.page.hideData}
+<input type="hidden" name="hideData" value="{name}:{value}"/> 
+{/stdRes.page.hideData}
+{#stdRes.page.conditions}
+<input type="hidden" name="conditions" value="{name}:{value}"/> 
+{/stdRes.page.conditions}
+
+

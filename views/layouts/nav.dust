@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<header class="navbar navbar-static-top margin-buttom-0 border-b-gray-1">
+	<div class="container">
+		<div class="nav-header">
+			<a class="navbar-brand" href="">C.D Scan</a>
+		</div>
+		<nav class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a id="AssetsMenu" class="dropdown-toggle"  href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">资产
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="AssetsMenu">
+						<li><a href="/user/assets">查看资产</a></li>
+						<li><a href="/user/hostGroups">查看分组</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="/user/assetsImportPage">资产导入</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a id="FringerPrintMenu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">指纹
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="FringerPrintMenu">
+						<li><a href="/fringerPrint">指纹列表</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">新建增指纹</a></li>
+						<li><a href="/fringerPrint/fringerPrintImportPage">导入指纹</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a id="InfiltrationMenu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">渗透
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="InfiltrationMenu">
+						<li><a href="/scan/modelList">模块列表</a></li>
+						<li><a href="/scan/taskList">任务列表</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="/scan/addModelPage">新增模块</a></li>
+						<li><a href="/scan/addTaskPage">新建任务</a></li>
+					</ul>
+				</li>
+
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
+				<li><a href=""><i class="glyphicon glyphicon-off"></i></a></li>
+			</ul>
+		</nav>
+	</div>
+</header>

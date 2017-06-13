@@ -1,0 +1,11 @@
+<!----------------------------------jquery------------------------------------>
+<script src='/static/jquery/dist/jquery.min.js'></script>
+
+<!----------------------------------Move动画---------------------------------->
+<script src='/static/move.js/move.min.js'></script>
+
+<!----------------------------------bootstrap--------------------------------->
+<script src='/static/bootstrap/dist/js/bootstrap.min.js'></script>
+
+<!----------------------------------ECharts----------------------------------->
+<script src='/static/echarts/dist/echarts.js'></script>

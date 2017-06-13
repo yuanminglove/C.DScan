@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<script type="text/javascript">
+
+	{@eq key=stdRes.err value="true" type="Boolean"}
+		/*错误打印*/
+		console.log({stdRes.message|js|s});
+	{/eq}
+	/*全选事件*/
+	$("#selectAll").on("click",function(){
+		$("#"+$(this).attr("data-selectTarget")).find("[type=checkbox]").prop("checked",$(this).prop("checked"));
+	});
+	/*分页*/
+	var pageObj = {
+    	"currentPage" : {stdRes.page.currentPage|js|s},
+    	"skip" :{stdRes.page.skip|js|s},
+    	"totalRows" : {stdRes.page.totalRows|js|s},
+    	"pageRows" : {stdRes.page.pageRows|js|s}
+    };
+
+	var result = '<div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">';
+
+	var totalPage = Math.ceil(pageObj.totalRows/pageObj.pageRows);
+	var begin = 0;
+	var end = totalPage;
+
+	if(totalPage>6){
+		begin = (pageObj.currentPage-pageObj.pageRows)>0 ? (pageObj.currentPage-pageObj.pageRows) : 0;
+		end = (pageObj.currentPage+pageObj.pageRows)<totalPage ? (pageObj.currentPage+pageObj.pageRows) : totalPage;
+	}
+
+	result += '<a type="submit" href=javascript:formSubmit(0,"form1","/user/assets") class="btn btn-default">首页</a>';
+	for(;begin<end; begin++){
+		result += '<a type="submit" href=javascript:formSubmit('+begin+',"form1","/user/assets") class="btn btn-default '+(begin==pageObj.currentPage?"active":"")+'">'+(begin+1)+'</a>';
+	}
+	result += '<a type="submit" href=javascript:formSubmit('+(totalPage-1)+',"form1","/user/assets") class="btn btn-default">尾页</a>';
+	result += '</div>';
+
+	/* for(var i=1; i<pageObj.hideData.length; i++){
+		result += '<input type="hidden" name='+pageObj.hideData[i].name+' value='+pageObj.hideData[i].value+' />'
+	}*/
+	result += '<input type="hidden" name="pageRows" value='+pageObj.pageRows+' />';
+	result += '<input id="currentPage" type="hidden" name="currentPage" value='+pageObj.currentPage+' />';
+
+	$("#pageContent").html(result);
+
+	function formSubmit(currentPage,formId,action){
+		$("#currentPage").attr("value",currentPage);
+		$("#"+formId).attr("action",action).submit();
+	}
+
+</script>

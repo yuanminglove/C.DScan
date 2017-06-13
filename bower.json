@@ -1,0 +1,19 @@
+{
+  "name": "c.dscan",
+  "description": "资产统计和扫描",
+  "main": "app.js",
+  "authors": [
+    "Chris.D"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "scan"
+  ],
+  "homepage": "chris.diystrom.com",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "echarts": "^3.5.4",
+    "move.js": "^0.3.3"
+  }
+}

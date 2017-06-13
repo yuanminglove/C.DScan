@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+  	{>"layouts/baseMeta" /}
+    {>"layouts/baseCss" /}
+
+    <title>{stdRes.title}</title>
+
+  </head>
+  <body>
+    {>"layouts/nav" /}
+
+	<div class="container">
+		<br/>
+		<div class="row">
+			<div class="col-lg-12">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">模块名称：</label>
+            <input type="text" class="form-control" name="name" placeholder="模块名称">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">模块代码：</label>
+            <textarea class="form-control" rows="25"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">模块说明：</label>
+            <textarea class="form-control" rows="4"></textarea>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-offset-10 text-right">
+              <button type="submit" class="btn btn-default">保存</button>
+            </div>
+          </div>
+        </form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+    {>"layouts/baseJavascript" /}
+    {>"layouts/basePlugin" /}
+  </body>
+
+</html>
