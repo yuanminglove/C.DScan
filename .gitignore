@@ -1,4 +1,4 @@
-/node_modules/*
+/node_modules/
 /public/static/
-/public/upload/*
+/public/upload/upload*
 *test*.js
