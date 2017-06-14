@@ -83,7 +83,7 @@ var HostDao = {
 			}
 		});
 	},
-	"deleteHostGroup" : function(id,cb){
+	"deleteHostOwnGroup" : function(id,cb){
 		HostModel.findOne({"_id":id},function(err,data){
 			if(err || !data._id){
 				console.log("[HostDao ERROR : ] -deleteHostGroup- Host findOne error ");

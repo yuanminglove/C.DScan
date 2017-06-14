@@ -48,14 +48,14 @@ router.post('/assetsImportPage', function (req, res, next) {
 
 });
 /* GET 将资产从分组中删除 */
-router.get('/deleteHostGroup/:id', function (req, res, next) {
+router.get('/deleteHostOwnGroup/:id', function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Assets List';
     stdRes.page = cUtils.req2page(req, stdRes.page);
-    HostDao.deleteHostGroup(req.params.id, function (err) {
+    HostDao.deleteHostOwnGroup(req.params.id, function (err) {
         if (err) {
             stdRes.err = true;
-            stdRes.message = "/user/deleteHostGroup ERROR!";
+            stdRes.message = "/user/deleteHostOwnGroup ERROR!";
             res.json(stdRes);
         } else {
             res.json(stdRes);
