@@ -1,149 +1,152 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-  	{>"layouts/baseMeta" /}
-    {>"layouts/baseCss" /}
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
 
     <title>{stdRes.title}</title>
 
-  </head>
-  <body>
+</head>
+
+<body>
     {>"layouts/nav" /}
 
-	<div class="container">
-		<br/>
-		<div class="row">
-      {#stdRes.data}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <a href="">
-            <strong data-toggle="tooltip" data-placement="bottom" title="分组说明 : {note}">
+    <div class="container">
+        <br/>
+        <div class="row">
+            {#stdRes.data}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="">
+                        <strong data-toggle="tooltip" data-placement="bottom" title="分组说明 : {note}">
               {groupName}
             </strong>
-          </a>
-          <a href="#" class="float-right text-danger"><i class="glyphicon glyphicon-fire"></i></a>
-        </div>
-        <div class="panel-body">
-          <table id="selectAll_" class="table table-hover">
-            <thead>
-              <tr>
-                <th width="200px">IP</th>
-                <th width="500px">服务</th>
-                <th width="20px" class="text-right">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#hosts}
-              <tr id="{_id}_block">
-                <input class="hostIds" type="hidden" value="{_id}"/>
-                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
-                  <div class="row">
-                    <div class="col-lg-2"><span class="caret"></span></div>
-                    <div class="col-lg-5">{ip}</div>
-                    <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
-                      <small class="italic">
+                    </a>
+                    <a href="#" class="float-right text-danger"><i class="glyphicon glyphicon-fire"></i></a>
+                </div>
+                <div class="panel-body">
+                    <table id="selectAll_" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="200px">IP</th>
+                                <th width="500px">服务</th>
+                                <th width="20px" class="text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#hosts}
+                            <tr id="{_id}_block">
+                                <input class="hostIds" type="hidden" value="{_id}" />
+                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
+                                    <div class="row">
+                                        <div class="col-lg-2"><span class="caret"></span></div>
+                                        <div class="col-lg-5">{ip}</div>
+                                        <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
+                                            <small class="italic">
                         <i>
                           {@substr data="{businessName}" start="0" len="4"}{/substr}
                         </i>
                       </small>
-                    </div>
-                    <div class="col-lg-2">
-                      <i id="{_id}_isAliveSymbol" class='glyphicon
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <i id="{_id}_isAliveSymbol" class='glyphicon
                       {?isAlive} glyphicon-eye-open text-success{/isAlive}
                       {^isAlive} glyphicon-eye-close{/isAlive}'>
                       </i>
-                    </div>
+                                        </div>
 
-                  </div>
+                                    </div>
 
-                </td>
-                <td>
-                  <!-- <a class="badge btn-success" href="#">FTP</a>&nbsp;
+                                </td>
+                                <td>
+                                    <!-- <a class="badge btn-success" href="#">FTP</a>&nbsp;
                   <a class="badge btn-success" href="#">HTTP</a>&nbsp;
                   <a class="badge btn-success" href="#">SSH</a>&nbsp;
                   <a class="badge btn-success" href="#">TELNET</a> -->
-                </td>
-                <td class="text-right">
-                  <a class="btn btn-info btn-xs" href="javascript:deleteHostOwnGroup('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
-                </td>
-              </tr>
-              <tr class="collapse" id="{_id}" >
-                  <td colspan="3">
+                                </td>
+                                <td class="text-right">
+                                    <a class="btn btn-info btn-xs" href="javascript:deleteHostOwnGroup('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="collapse" id="{_id}">
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal">
+
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>{~n} {/hosts}
+                        </tbody>
+                    </table>
                     <div class="row">
-                      <div class="col-lg-12">
-                        <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal" >
-
-                        </dl>
-                      </div>
+                        <div class="col-lg-3 col-lg-offset-9 text-right">
+                            <a href="javascript:checkAlive()" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-search"></i>&nbsp;存活主机探测</a>&nbsp;
+                            <a href="javascript:creatTask('{_id}')" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-plus"></i>&nbsp;创建任务</a>&nbsp;
+                            <!-- <a class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-file"></i>&nbsp;查看结果</a> -->
+                        </div>
                     </div>
-                  </td>
-              </tr>{~n}
-              {/hosts}
-            </tbody>
-          </table>
-          <div class="row">
-            <div class="col-lg-3 col-lg-offset-9 text-right">
-              <a href="javascript:checkAlive()" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-search"></i>&nbsp;存活主机探测</a>&nbsp;
-              <a href="javascript:creatTask('{_id}')" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-plus"></i>&nbsp;创建任务</a>&nbsp;
-              <!-- <a class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-file"></i>&nbsp;查看结果</a> -->
-            </div>
-          </div>
+                </div>
+            </div>{~m} {/stdRes.data}
         </div>
-      </div>{~m}
-      {/stdRes.data}
     </div>
-  </div>
 
 
 
-    {>"layouts/baseJavascript" /}
-    {>"layouts/basePlugin" /}
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
     <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      });
-      function getNoteById(noteId){
-        var target = $("#"+noteId+"_notes");
-        if(target.attr("data-clicked")=="false"){
-          $.get("/user/note/"+noteId , function(data){
-            var note = data.stdRes.data;
-            var result = "";
-            for(var i=0; i<note.length; i++){
-              result += '<dt title="'+note[i].noteName+'">'+note[i].noteName+'</dt><dd>'+note[i].noteValue+'</dd>';
-            }
-            target.attr("data-clicked","true");
-            target.html(result);
-          });
-        }
-      }
-      function deleteHostOwnGroup(hostId){
-        $.get("/user/deleteHostOwnGroup/"+hostId,function(data){
-          if(data.err){
-            console.log(data.message);
-          }else{
-            $("#"+hostId+"_block").hide(500,function(){
-              $(this).remove();
-              $("#_"+hostId).remove();
-            });
-          }
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
         });
-      }
-      function checkAlive(){
-          $(".hostIds").each(function(){
-            $.get("/user/checkAlive/"+$(this).val(),function(data){
-              if(data.err){
-                console.log(data.err);
-                $("#"+data.data[0]+"_isAliveSymbol").removeClass("glyphicon-eye-open text-success").addClass("glyphicon-eye-close");
-              }else{
-                $("#"+data.data[0]+"_isAliveSymbol").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open text-success");
-              }
-            });
-          });
-      }
-      function creatTask(groupId) {
 
-      }
+        function getNoteById(noteId) {
+            var target = $("#" + noteId + "_notes");
+            if (target.attr("data-clicked") == "false") {
+                $.get("/user/note/" + noteId, function(data) {
+                    var note = data.stdRes.data;
+                    var result = "";
+                    for (var i = 0; i < note.length; i++) {
+                        result += '<dt title="' + note[i].noteName + '">' + note[i].noteName + '</dt><dd>' + note[i].noteValue + '</dd>';
+                    }
+                    target.attr("data-clicked", "true");
+                    target.html(result);
+                });
+            }
+        }
+
+        function deleteHostOwnGroup(hostId) {
+            $.get("/user/deleteHostOwnGroup/" + hostId, function(data) {
+                if (data.err) {
+                    console.log(data.message);
+                } else {
+                    $("#" + hostId + "_block").hide(500, function() {
+                        $(this).remove();
+                        $("#_" + hostId).remove();
+                    });
+                }
+            });
+        }
+
+        function checkAlive() {
+            $(".hostIds").each(function() {
+                $.get("/user/checkAlive/" + $(this).val(), function(data) {
+                    if (data.err) {
+                        console.log(data.err);
+                        $("#" + data.data[0] + "_isAliveSymbol").removeClass("glyphicon-eye-open text-success").addClass("glyphicon-eye-close");
+                    } else {
+                        $("#" + data.data[0] + "_isAliveSymbol").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open text-success");
+                    }
+                });
+            });
+        }
+
+        function creatTask(groupId) {
+
+        }
+
     </script>
-  </body>
+</body>
 
 </html>
