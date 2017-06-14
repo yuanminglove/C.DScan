@@ -5,16 +5,18 @@ var scan = require("./scan/index")
 var fringerPrint = require("./fringerPrint/index")
 
 
-router.use(function(req,res,next){
-	// console.log("[rout : index ] banner!");
-	next(null);
+router.use(function (req, res, next) {
+    // console.log("[rout : index ] banner!");
+    next(null);
 });
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', function (req, res, next) {
+    res.render('index', {
+        title: 'Express'
+    });
 });
-router.use("/user",user);
-router.use("/scan",scan);
-router.use("/fringerPrint",fringerPrint);
+router.use("/user", user);
+router.use("/scan", scan);
+router.use("/fringerPrint", fringerPrint);
 
 module.exports = router;

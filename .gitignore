@@ -4,7 +4,7 @@
 !/models/
 !/public/
 /public/static/
-/public/upload/
+/public/upload/upload*
 !/routes/
 !/utils/
 !/views/

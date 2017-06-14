@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-  	{>"layouts/baseMeta" /}
-    {>"layouts/baseCss" /}
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
 
     <title>{stdRes.title}</title>
 
-  </head>
-  <body>
+</head>
+
+<body>
     {>"layouts/nav" /}
 
-	<div class="container">
-		<br/>
-		<div class="row">
-      <form id="form1" action="/user/addToGroup" method="POST">
-        {>"layouts/otherData" /}
-        <input id="groupId" type="hidden" name="groupId" value=""/>
-          {#stdRes.data}
-          <div class="col-lg-3">
-            <a href="javascript:addToGroup('{_id}')" data-toggle="tooltip" data-placement="bottom" title="分组说明 : {note}">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  {groupName}
+    <div class="container">
+        <br/>
+        <div class="row">
+            <form id="form1" action="/user/addToGroup" method="POST">
+                {>"layouts/otherData" /}
+                <input id="groupId" type="hidden" name="groupId" value="" /> {#stdRes.data}
+                <div class="col-lg-3">
+                    <a href="javascript:addToGroup('{_id}')" data-toggle="tooltip" data-placement="bottom" title="分组说明 : {note}">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {groupName}
+                            </div>
+                        </div>
+                    </a>{~n}
                 </div>
-              </div>
-            </a>{~n}
-          </div>
-          {/stdRes.data}
-      </form>
-			
-		</div>
-	</div>
+                {/stdRes.data}
+            </form>
+
+        </div>
+    </div>
 
 
 
 
-    {>"layouts/baseJavascript" /}
-    {>"layouts/basePlugin" /}
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
     <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      });
-      function addToGroup(groupId){
-        $("#groupId").attr("value",groupId);
-        $("#form1").submit();
-      }
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        function addToGroup(groupId) {
+            $("#groupId").attr("value", groupId);
+            $("#form1").submit();
+        }
+
     </script>
-  </body>
-  
+</body>
+
 </html>

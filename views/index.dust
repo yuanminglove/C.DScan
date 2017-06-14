@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
+
+<head>
     <title>{title}</title>
     {>"layouts/baseCss" /}
-    
 
-  </head>
-  <body>
+
+</head>
+
+<body>
     {+body /}
-  </body>
-  {>"layouts/baseJavascript" /}
-  {>"layouts/basePlugin" /}
+</body>
+{>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
+
 </html>
