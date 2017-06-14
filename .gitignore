@@ -1,4 +1,4 @@
-/mode_modules/
+/mode_modules/*
 /public/static/
 /public/upload/*
 *test*.js
