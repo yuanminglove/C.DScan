@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
+
+    <title>{stdRes.title}</title>
+
+</head>
+
+<!--               创建扫描任务时先选中扫描模块（和其他一些参数），再开始扫描-->
+
+<body>
+    {>"layouts/nav" /}
+
+    <div class="container">
+        <br/>
+        <div class="row">
+            <form action="/scan/createTask" method="POST">
+                <input id="groupId" name="groupId" type="hidden" value="{stdRes.data[0]._id}" />
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            创建扫描任务
+                            <button type="submit" class="float-right btn btn-default btn-xs"> GO </button>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <input type="text" name="taskName" class="form-control" placeholder="Task Name">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <input type="text" name="timeout" class="form-control" placeholder="Timeout">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <textarea name="note" class="form-control" rows="3" placeholder="备注..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            {#stdRes.data[1]}
+                            <div style="display:none">
+                                <input id="scanModel_{_id}" type="checkbox" name="scanModels" value="{_id}"/>
+                            </div>
+                            <a id="scanModelB_{_id}" href="javascript:chooseScanModel('{_id}')" class="label label-default">{name}</a>&nbsp; {~n} {/stdRes.data[1]}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
+    <script type="text/javascript">
+        function chooseScanModel(id) {
+            var _model = $("#scanModel_" + id);
+            var checked = !_model.prop("checked");
+            _model.prop("checked", checked);
+            $("#scanModelB_" + id).removeClass("label-" + (!checked ? "success" : "default")).addClass("label-" + (checked ? "success" : "default"));
+        }
+
+    </script>
+</body>
+
+</html>

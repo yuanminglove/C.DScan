@@ -36,7 +36,7 @@
                         <tbody>
                             {#hosts}
                             <tr id="{_id}_block">
-                                <input class="hostIds" type="hidden" value="{_id}" />
+                                <input name="hostId" type="hidden" value="{_id}" />
                                 <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
                                     <div class="row">
                                         <div class="col-lg-2"><span class="caret"></span></div>
@@ -84,7 +84,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-lg-offset-9 text-right">
                             <a href="javascript:checkAlive()" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-search"></i>&nbsp;存活主机探测</a>&nbsp;
-                            <a href="javascript:creatTask('{_id}')" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-plus"></i>&nbsp;创建任务</a>&nbsp;
+                            <a href="/scan/createTask/{_id}" class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-plus"></i>&nbsp;创建任务</a>&nbsp;
                             <!-- <a class="btn btn-info btn-xs small"><i class="glyphicon glyphicon-file"></i>&nbsp;查看结果</a> -->
                         </div>
                     </div>
@@ -130,10 +130,10 @@
         }
 
         function checkAlive() {
-            $(".hostIds").each(function() {
+            $("input[name='hostId']").each(function() {
                 $.get("/user/checkAlive/" + $(this).val(), function(data) {
                     if (data.err) {
-                        console.log(data.err);
+                        console.log(data.message);
                         $("#" + data.data[0] + "_isAliveSymbol").removeClass("glyphicon-eye-open text-success").addClass("glyphicon-eye-close");
                     } else {
                         $("#" + data.data[0] + "_isAliveSymbol").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open text-success");

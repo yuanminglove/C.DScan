@@ -1,97 +1,103 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-  	{>"layouts/baseMeta" /}
-    {>"layouts/baseCss" /}
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
 
     <title>{stdRes.title}</title>
 
-  </head>
-  <body>
+</head>
+
+<body>
     {>"layouts/nav" /}
 
-	<div class="container">
-		<br/>
-		<div class="row">
-      {#stdRes.data}
-      <div id="{_id}_block" class="col-lg-3">
-        <div class="alert alert-info alert-dismissible" role="alert">
-          <p class="float-right">
-            <a href="javascript:deleteHostGroup('{_id}')" title="删除分组" class="close"><small class="glyphicon glyphicon-remove"></small></a>
-            <br/>
-            <a href="javascript:editHostGroup('{_id}')" title="编辑分组" class="close" ><small class="glyphicon glyphicon-edit"></small></a>
-          </p>          
-          <strong><a href="/user/hostGroup/{_id}">{groupName}</a></strong>
-          <br/>
-          <p data-toggle="tooltip" data-placement="bottom" title="分组说明 : {note}">
-            {@substr data="{note}" start="0" len="12"}{/substr}
-          </p>          
-        </div>
-      </div>
-      {/stdRes.data}
-      <div class="col-lg-3 text-center">
-        <a id="myModalOpen" href="#" data-toggle="modal" data-target="#myModal">
-          <div class="alert alert-success alert-dismissible" role="alert">
-            <i class="glyphicon glyphicon-plus"></i>
-          </div> 
-        </a>       
-      </div>
-			
-		</div>
-	</div>
+    <div class="container">
+        <br/>
+        <div class="row">
+            {#stdRes.data}
+            <div id="{_id}_block" class="col-lg-3">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <p class="float-right">
+                        <a href="javascript:deleteHostGroup('{_id}')" title="删除分组" class="close"><small class="glyphicon glyphicon-remove"></small></a>
+                        <br/>
+                        <a href="javascript:editHostGroup('{_id}')" title="编辑分组" class="close"><small class="glyphicon glyphicon-edit"></small></a>
+                    </p>
+                    <strong><a href="/user/hostGroup/{_id}">{groupName}</a></strong>
+                    <br/>
+                    <p data-toggle="tooltip" data-placement="bottom" title="分组说明 : {note}">
+                        {@substr data="{note}" start="0" len="12"}{/substr}
+                    </p>
+                </div>
+            </div>
+            {/stdRes.data}
+            <div class="col-lg-3 text-center">
+                <a id="myModalOpen" href="#" data-toggle="modal" data-target="#myModal">
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </div>
+                </a>
+            </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <form action="/user/addHostGroup" method="POST">
-        <input id="groupId" name="groupId" type="hidden">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">新增资产分组</h4>
-          </div>
-          <div class="modal-body">
-            <input id="groupName" type="text" name="groupName" class="form-control" placeholder="分组名称">
-            <br/>
-            <textarea id="groupNote" name="note" class="form-control" rows="3" placeholder="备注..."></textarea>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">保存</button>
-          </div>
         </div>
-      </form>
     </div>
-  </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <form action="/user/addHostGroup" method="POST">
+                <input id="groupId" name="groupId" type="hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">新增资产分组</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="groupName" type="text" name="groupName" class="form-control" placeholder="分组名称">
+                        <br/>
+                        <textarea id="groupNote" name="note" class="form-control" rows="3" placeholder="备注..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
 
-    {>"layouts/baseJavascript" /}
-    {>"layouts/basePlugin" /}
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
     <script type="text/javascript">
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    });
-    function editHostGroup(groupId){
-      $.post("/user/hostGroup",{hideData:"groupId:"+groupId,conditions:"_id:"+groupId},function(data){
-        var hostGroup = data.data[0];
-        $("#groupId").attr("value",hostGroup._id);
-        $("#groupName").attr("value",hostGroup.groupName);
-        $("#groupNote").val(hostGroup.note);
-        $("#myModalOpen").click();
-      });
-    }
-    function deleteHostGroup(groupId){
-      $.get("/user/deleteHostGroup/"+groupId,function(data){
-        if(data.err){
-          alert(data.message);
-        }else{
-          $("#"+groupId+"_block").hide(150,function(){
-            $(this).remove();
-          });
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        function editHostGroup(groupId) {
+            $.post("/user/hostGroup", {
+                hideData: "groupId:" + groupId,
+                conditions: "_id:" + groupId
+            }, function(data) {
+                var hostGroup = data.data[0];
+                $("#groupId").attr("value", hostGroup._id);
+                $("#groupName").attr("value", hostGroup.groupName);
+                $("#groupNote").val(hostGroup.note);
+                $("#myModalOpen").click();
+            });
         }
-      });
-    }
+
+        function deleteHostGroup(groupId) {
+            $.get("/user/deleteHostGroup/" + groupId, function(data) {
+                if (data.err) {
+                    alert(data.message);
+                } else {
+                    $("#" + groupId + "_block").hide(150, function() {
+                        $(this).remove();
+                    });
+                }
+            });
+        }
+
     </script>
-  </body>
-  
+</body>
+
 </html>
