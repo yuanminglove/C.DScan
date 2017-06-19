@@ -29,17 +29,16 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a id="InfiltrationMenu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">渗透
+					<a id="InfiltrationMenu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">模块
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="InfiltrationMenu">
-						<li><a href="/scan/modelList">模块列表</a></li>
-						<li><a href="/scan/taskList">任务列表</a></li>
+						<li><a href="/scan/scanModels">模块列表</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="/scan/addModelPage">新增模块</a></li>
-						<li><a href="/scan/addTaskPage">新建任务</a></li>
 					</ul>
 				</li>
+                <li><a href="/scan/tasks">任务</a></li>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

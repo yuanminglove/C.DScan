@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
+
+    <title>{stdRes.title}</title>
+
+</head>
+
+<body>
+    {>"layouts/nav" /}
+
+    <div class="container">
+        <br/>
+        <div class="row">
+                <form action="/scan/addModel" method="post">
+                    <input name="_id" type="hidden" value=""/>
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">模块名称：</label>
+                        <input type="text" class="form-control" name="name" placeholder="模块名称">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">模块作者：</label>
+                        <input type="text" class="form-control" name="" placeholder="模块作者">
+                    </div>
+                    <div class="form-group  col-lg-12">
+                        <label for="exampleInputEmail1">模块代码：</label>
+                        <textarea name="code" class="form-control" rows="20" placeholder="推荐使用压缩后的代码"></textarea>
+                    </div>
+                    <div class="form-group  col-lg-12">
+                        <label for="exampleInputEmail1">模块说明 & 备注：</label>
+                        <textarea name="note" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="form-group  col-lg-12">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-default btn-lg btn-block">保存</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    </div>
+
+
+
+
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
+</body>
+
+</html>

@@ -1,227 +1,141 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-  	{>"layouts/baseMeta" /}
-    {>"layouts/baseCss" /}
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
 
     <title>{stdRes.title}</title>
 
-  </head>
-  <body>
+</head>
+
+<body>
     {>"layouts/nav" /}
 
-	<div class="container">
-		<br/>
-		<div class="row">
-			<form id="form1" action="/user/addToHostGroup" method="POST">
-				<div class="col-lg-12">
-					<table id="selectAll_" class="table table-hover">
-						<thead>
-							<tr>
-								<th width="15px">
-								  	<input class="margin-top-0" type="checkbox" id="selectAll" data-selectTarget="selectAll_" title="全选">
-								</th>
-								<th width="300px">IP</th>
-								<th width="500px">服务</th>
-								<th width="200px" class="text-right">操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							{#stdRes.data}
-							<tr id="{_id}_block">
-								<td>
-									<input class="margin-top-0" type="checkbox" name="hideData" value="hostId:{_id}" title="选择">
-								</td>
-								<td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
-									<div class="row">
-										<div class="col-lg-2"><span class="caret"></span></div>
-										<div class="col-lg-5">{ip}</div>
-										<div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
-											<small class="italic">
+    <div class="container">
+        <br/>
+        <div class="row">
+            <form id="form1" action="/user/addToHostGroup" method="POST">
+                <div class="col-lg-12">
+                    <table id="selectAll_" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="15px">
+                                    <input class="margin-top-0" type="checkbox" id="selectAll" data-selectTarget="selectAll_" title="全选">
+                                </th>
+                                <th width="300px">IP</th>
+                                <th width="500px">服务</th>
+                                <th width="200px" class="text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#stdRes.data}
+                            <tr id="{_id}_block">
+                                <td>
+                                    <input class="margin-top-0" type="checkbox" name="hideData" value="hostId:{_id}" title="选择">
+                                </td>
+                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
+                                    <div class="row">
+                                        <div class="col-lg-2"><span class="caret"></span></div>
+                                        <div class="col-lg-5">{ip}</div>
+                                        <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
+                                            <small class="italic">
 												<i>
 													{@substr data="{businessName}" start="0" len="4"}{/substr}
 												</i>
 											</small>
-										</div>
-										<div class="col-lg-2">
-                      <i id="{_id}_isAliveSymbol" class='glyphicon
-                      {?isAlive} glyphicon-eye-open text-success{/isAlive}
-                      {^isAlive} glyphicon-eye-close{/isAlive}'>
-                      </i>
-                    </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <i id="{_id}_isAliveSymbol" class='glyphicon {?isAlive} glyphicon-eye-open text-success{/isAlive} {^isAlive} glyphicon-eye-close{/isAlive}'> </i>
+                                        </div>
 
-									</div>
+                                    </div>
 
-								</td>
-								<td>
-									<!-- <a class="badge btn-success" href="#">FTP</a>&nbsp;
+                                </td>
+                                <td>
+                                    <!-- <a class="badge btn-success" href="#">FTP</a>&nbsp;
 									<a class="badge btn-success" href="#">HTTP</a>&nbsp;
 									<a class="badge btn-success" href="#">SSH</a>&nbsp;
 									<a class="badge btn-success" href="#">TELNET</a> -->
-								</td>
-								<td class="text-right">
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
-									<a class="btn btn-info btn-xs" href="javascript:deleteAsset('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
-								</td>
-							</tr>
-							<tr class="collapse" id="{_id}" >
-							    <td colspan="4">
-							    	<div class="row">
-							    		<div class="col-lg-12">
-                        <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal" >
+                                </td>
+                                <td class="text-right">
+                                    <a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                                    <a class="btn btn-info btn-xs" href="javascript:deleteAsset('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="collapse" id="{_id}">
+                                <td colspan="4">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal">
 
-  							    		</dl>
-                      </div>
-							    	</div>
-							    </td>
-							</tr>{~n}
-							{/stdRes.data}
-						<!--
-							<tr>
-								<td>
-									<input class="margin-top-0" type="checkbox" name="xxx" value="xxx" title="选择">
-								</td>
-								<td class="hover-pointer" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-									<span class="caret"></span>
-									&nbsp;&nbsp;192.168.2.1&nbsp;&nbsp;
-									<i class="glyphicon glyphicon-eye-open text-success"></i>
-								</td>
-								<td>
-									<a class="badge btn-success" href="#">FTP</a>&nbsp;
-									<a class="badge btn-success" href="#">HTTP</a>&nbsp;
-									<a class="badge btn-success" href="#">SSH</a>&nbsp;
-									<a class="badge btn-success" href="#">TELNET</a>
-								</td>
-								<td>
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-trash"></i></a>
-								</td>
-							</tr>
-							<tr class="collapse" id="collapseExample" >
-							    <td colspan="4">
-							    	<div class="row">
-							    		<dl class="dl-horizontal">
-							    			<dt>网站名称</dt><dd>139邮箱标准版</dd>
-							    			<dt>公网IP地址</dt><dd>221.176.9.121</dd>
-							    			<dt>网站域名</dt><dd>mail.10086.cn</dd>
-							    			<dt>实际访问域名</dt><dd>http://mail.10086.cn</dd>
-							    			<dt>网站页面数量</dt><dd>50</dd>
-							    			<dt>网站规模</dt><dd>小</dd>
-							    			<dt>主管责任部门</dt><dd>京ICP备05002571号</dd>
-							    			<dt>主管责任人</dt><dd>互联网公司（筹建）业务一部</dd>
-							    			<dt>主管责任人联系方式</dt><dd>杨佩忠</dd>
-							    			<dt>主管负责领导</dt><dd>13802882178</dd>
-							    			<dt>第三方维护单位</dt><dd>陈芨</dd>
-							    			<dt>第三方负责人</dt><dd>深圳市彩讯科技有限公司</dd>
-							    			<dt>第三方联系方式</dt><dd>卢业波</dd>
-							    			<dt>第三方负责人邮箱</dt><dd>13923789436</dd>
-							    			<dt>产品经理</dt><dd>李小青</dd>
-							    			<dt>产品经理联系电话</dt><dd>13922200384</dd>
-							    		</dl>
-							    	</div>
-							    </td>
-							</tr>
-							<tr>
-								<td>
-									<input class="margin-top-0" type="checkbox" name="xxx" value="xxx" title="选择">
-								</td>
-								<td class="hover-pointer" data-toggle="collapse" href="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
-									<span class="caret"></span>
-									&nbsp;&nbsp;192.168.2.1&nbsp;&nbsp;
-									<i class="glyphicon glyphicon-eye-close"></i>
-								</td>
-								<td>
-
-								</td>
-								<td>
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-trash"></i></a>
-								</td>
-							</tr>
-							<tr class="collapse" id="collapseExample2" >
-							    <td colspan="4">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. </td>
-							</tr>
-							<tr>
-								<td>
-									<input class="margin-top-0" type="checkbox" name="xxx" value="xxx" title="选择">
-								</td>
-								<td class="hover-pointer" data-toggle="collapse" href="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
-									<span class="caret"></span>
-									&nbsp;&nbsp;192.168.2.1&nbsp;&nbsp;
-									<i class="glyphicon glyphicon-warning-sign text-warning"></i>
-								</td>
-								<td>
-									<a class="badge btn-warning" href="#">HTTP</a>
-								</td>
-								<td>
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
-									<a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-trash"></i></a>
-								</td>
-							</tr>
-							<tr class="collapse" id="collapseExample3" >
-							    <td colspan="4">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. </td>
-							</tr>
-						-->
-						</tbody>
-					</table>
-				</div>
-				<div class="col-lg-4"></div>
-				<div class="col-lg-4 text-center"></div>
-				<div class="col-lg-4 text-right">
-					<a class="btn btn-primary btn-xs small" href="javascript:formSubmit(0,'form1','/user/selectGroupToAdd')">
-						<i class="glyphicon glyphicon-folder-close"></i>&nbsp;添加到分组
-					</a>&nbsp;
-					<a class="btn btn-primary btn-xs" href="javascript:formSubmit(0,'form1','/user/deleteAssets')">
-						<i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除
-					</a>
-				</div>
-				<div class="col-lg-12 text-center">
-					{>"layouts/basePage" /}
-				</div>
-			</form>
-		</div>
-	</div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>{~n} {/stdRes.data}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4 text-center"></div>
+                <div class="col-lg-4 text-right">
+                    <a class="btn btn-primary btn-xs small" href="javascript:formSubmit(0,'form1','/user/selectGroupToAdd')">
+                        <i class="glyphicon glyphicon-folder-close"></i>&nbsp;添加到分组
+                    </a>&nbsp;
+                    <a class="btn btn-primary btn-xs" href="javascript:formSubmit(0,'form1','/user/deleteAssets')">
+                        <i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除
+                    </a>
+                </div>
+                <div class="col-lg-12 text-center">
+                    {>"layouts/basePage" /}
+                </div>
+            </form>
+        </div>
+    </div>
 
 
 
 
-    {>"layouts/baseJavascript" /}
-	{>"layouts/basePlugin" /}
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
 
     <script type="text/javascript">
-    	$(function () {
-    	  $('[data-toggle="tooltip"]').tooltip()
-    	});
-    	function getNoteById(noteId){
-    		var target = $("#"+noteId+"_notes");
-    		if(target.attr("data-clicked")=="false"){
-	    		$.get("/user/note/"+noteId , function(data){
-	    			var note = data.stdRes.data;
-	    			var result = "";
-	    			for(var i=0; i<note.length; i++){
-	    				result += '<dt title="'+note[i].noteName+'">'+note[i].noteName+'</dt><dd>'+note[i].noteValue+'</dd>';
-	    			}
-	    			target.attr("data-clicked","true");
-	    			target.html(result);
-	    		});
-    		}
-    	}
-      function deleteAsset(hostId){
-        $.get("/user/deleteAsset/"+hostId , function(data){
-          if(data.err){
-            console.log(err);
-          }else{
-            $("#"+hostId+"_block").hide(500,function(){
-              $(this).remove();
-              $("#_"+hostId).remove();
-            });
-          }
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
         });
-      }
-      function deleteAssets(){
-        var ids = [];
-      }
+
+        function getNoteById(noteId) {
+            var target = $("#" + noteId + "_notes");
+            if (target.attr("data-clicked") == "false") {
+                $.get("/user/note/" + noteId, function(data) {
+                    var note = data.stdRes.data;
+                    var result = "";
+                    for (var i = 0; i < note.length; i++) {
+                        result += '<dt title="' + note[i].noteName + '">' + note[i].noteName + '</dt><dd>' + note[i].noteValue + '</dd>';
+                    }
+                    target.attr("data-clicked", "true");
+                    target.html(result);
+                });
+            }
+        }
+
+        function deleteAsset(hostId) {
+            $.get("/user/deleteAsset/" + hostId, function(data) {
+                if (data.err) {
+                    console.log(err);
+                } else {
+                    $("#" + hostId + "_block").hide(500, function() {
+                        $(this).remove();
+                        $("#_" + hostId).remove();
+                    });
+                }
+            });
+        }
+
+        function deleteAssets() {
+            var ids = [];
+        }
+
     </script>
-  </body>
+</body>
 
 </html>

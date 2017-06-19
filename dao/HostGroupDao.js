@@ -110,6 +110,19 @@ var HostGroupDao = {
             }
         })
     },
+    "findByIds": function (ids, cb) {
+        HostGroupModel.find({
+            "_id": {$in : ids}
+        }, function (err, hostGroup) {
+            if (err) {
+                console.log("[HostGroupDao ERROR : ] -findByIds- Host findOne error ");
+                console.log(err);
+                cb(true);
+            } else {
+                cb(null, hostGroup)
+            }
+        })
+    },
     "findByPage": function (page, cb) {
         var conditions = {};
 

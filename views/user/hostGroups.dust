@@ -16,7 +16,7 @@
         <div class="row">
             {#stdRes.data}
             <div id="{_id}_block" class="col-lg-3">
-                <div class="alert alert-info alert-dismissible" role="alert">
+                <div class="alert alert-default-1 alert-dismissible" role="alert">
                     <p class="float-right">
                         <a href="javascript:deleteHostGroup('{_id}')" title="删除分组" class="close"><small class="glyphicon glyphicon-remove"></small></a>
                         <br/>

@@ -1,16 +1,25 @@
-.margin-buttom-0{
-	margin-bottom: 0px;
-}
-.margin-top-0{
-	margin-top: 0px;
-}
-.border-b-gray-1{
-	border-bottom: 1px rgba(0, 0, 0, 0.07) solid;
-}
-.hover-pointer:hover{
-	cursor: pointer;
-}
-.float-right{
-	float: right;
+.margin-buttom-0 {
+    margin-bottom: 0px;
 }
 
+.margin-top-0 {
+    margin-top: 0px;
+}
+
+.border-b-gray-1 {
+    border-bottom: 1px rgba(0, 0, 0, 0.07) solid;
+}
+
+.hover-pointer:hover {
+    cursor: pointer;
+}
+
+.float-right {
+    float: right;
+}
+
+.alert-default-1 {
+    color: #686363;
+    background-color: #f6f6f6;
+    border-color: #e6e6e6;
+}

@@ -58,6 +58,22 @@ var HostDao = {
                 });
         });
     },
+    "findByGroupIdAndAlive": function (groupId, cb) {
+        var conditions = {
+            "groupId": groupId,
+            "isAlive": true
+        };
+        HostModel.find(conditions)
+            .exec(function (err, data) {
+                if (err) {
+                    console.log("[HostDao ERROR : ] -findByGroupIdAndAlive- Host find error ");
+                    console.log(err);
+                    cb(true);
+                } else {
+                    cb(null, data);
+                }
+            });
+    },
     "deleteHost": function (hostId, cb) {
         HostModel.findOne({
             "_id": hostId
