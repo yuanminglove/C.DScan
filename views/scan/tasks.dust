@@ -14,21 +14,20 @@
     <div class="container">
         <br/>
         <div class="row">
-            <div class="col-lg-12">
-                {#stdRes.data}
-                <div id="block_{_id}" class="col-lg-3" data-toggle="tooltip" data-placement="bottom" title="task note : {note}">
-                    <div class="alert alert-info alert-dismissible" role="alert">
-                        <p class="float-right">
-                            <a href="javascript:deleteTaskById('{_id}')" title="删除task" class="close"><small class="glyphicon glyphicon-remove"></small></a>
-                        </p>
-                        <strong><a href="#">{name}</a></strong>
-                        <br/>
-                        <p>
-                            {@formatTime data=time formatString="yyyy-MM-dd HH:mm:ss"}{/formatTime}
-                        </p>
-                    </div>
-                </div>{~n} {/stdRes.data}
-            </div>
+            {#stdRes.data}
+            <div id="block_{_id}" class="col-lg-3"   >
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <p class="float-right">
+                        <a href="javascript:deleteTaskById('{_id}')" title="删除task" class="close"><small class="glyphicon glyphicon-remove"></small></a>
+                    </p>
+                    <strong><a href="#">{name}</a></strong>
+                    <br/>
+                    <p>
+                        {@formatTime data=time formatString="yyyy-MM-dd HH:mm:ss"}{/formatTime}&nbsp;&nbsp;
+                        <a href="javascript:void(0)" class="float-right" data-trigger="click" data-toggle="tooltip" data-placement="bottom"  title="task note : {note}">more...</a>
+                    </p>
+                </div>
+            </div>{~n} {/stdRes.data}
         </div>
     </div>
 
@@ -47,6 +46,7 @@
                     console.log(data.message);
                 } else {
                     $("#block_" + id).hide(150, function() {
+                        $(this).tooltip('hide');
                         $(this).remove();
                     });
                 }
