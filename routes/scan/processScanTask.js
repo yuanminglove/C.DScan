@@ -24,36 +24,64 @@ async.waterfall([function (waterfallcb) {
 }, function (t, waterfallcb) {
     task = JSON.parse(t).data[0];
     targets = task.targets;
-    for (var i in task.scanModels) {
-        scanModels.push(eval(task.scanModels[i].code));
-    }
-    async.series(scanModels, function (err) {
-        saveScanResults(scanResults, function (err) {
-            if (err) {
-                waterfallcb(err);
-            } else {
-                waterfallcb(null);
-            }
-        })
+    //    for (var i in task.scanModels) {
+    //        scanModels.push(eval(task.scanModels[i].code));
+    //    }
+    //    async.series(scanModels, function (err) {
+    //        saveScanResults(scanResults, function (err) {
+    //            if (err) {
+    //                waterfallcb(err);
+    //            } else {
+    //                waterfallcb(null);
+    //            }
+    //        })
+    //    });
+    async.eachSeries(targets, function (target, callback) {
+        var f = []
+        for (var i in task.scanModels) {
+            f.push(eval(task.scanModels[i].code));
+        }
+        async.series(f, function (err) {
+            callback(err);
+        });
+    }, function (err) {
+        console.log('1.3 err: ' + err);
     });
 }, function (waterfallcb) {
     ///save scanResults
+    waterfallcb(null);
 }], function (err) {
     console.log(err)
 })
 
 /*
-(function(){return function(cb){
-    var scanResult = {};
-    for (var i in targets) {
-        scanResult.target = targets[i].ip;
-        scanResult.port = 80;
-        scanResult.level = 1;
-        scanResult.outPut = "output";
-        scanResults.push(scanResult)
-    }
-    cb(null);
-}})()
+(function(){ 
+	return function(cb){ 
+		for (var i in targets) { 
+			var scanResult = {}; 
+			scanResult.target = targets[i].ip; 
+			scanResult.port = 80; 
+			scanResult.level = 1; 
+			scanResult.outPut = "output"; 
+			scanResults.push(scanResult); 
+		} 
+		cb(null); 
+	} 
+})()
+
+(function(){ 
+	return function(cb){ 
+        var scanResult = {}; 
+        
+        scanResult.target = target.ip; 
+        scanResult.port = 80; 
+        scanResult.level = 1; 
+        scanResult.outPut = "output"; 
+        
+        scanResults.push(scanResult); 
+		cb(null); 
+	} 
+})()
 */
 function getTask(id, cb) {
     var options = {
