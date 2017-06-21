@@ -12,7 +12,6 @@ var ScanResultDao = {
 
     },
     "saveScanResults": function (scanResults, cb) {
-        console.log("------------------saveScanResults---------------------")
         for (var i in scanResults) {
             var model = new ScanResult();
             mode.target = scanResults[i].target;

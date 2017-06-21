@@ -44,17 +44,14 @@ var ScanTasklDao = {
         })
     },
     "findById": function (id, cb) {
-        console.log("---------------------findById----------------")
-        console.log("id : "+id)
         ScanTask.findOne({
             "_id": id
         }, function (err, data) {
-        console.log("---------------------findById22222222----------------")
             if (err) {
                 console.log(err);
                 cb(true);
             } else {
-                console.log(data)
+//                console.log(data)
                 cb(null, data);
             }
         })

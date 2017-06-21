@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var user = require("./user/index")
 var scan = require("./scan/index")
-var interface = require("./scan/interface")
+var interface = require("./interface/index")
 var fringerPrint = require("./fringerPrint/index")
 
 
@@ -18,6 +18,7 @@ router.get('/', function (req, res, next) {
 });
 router.use("/user", user);
 router.use("/scan", scan);
+router.use("/interface", interface);
 router.use("/fringerPrint", fringerPrint);
 
 module.exports = router;

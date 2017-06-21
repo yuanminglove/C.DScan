@@ -19,7 +19,7 @@
                 <p class="float-right">
                     <a href="#" class="glyphicon glyphicon-repeat underline-none"></a>&nbsp;&nbsp;
                     <a href="#" class="glyphicon glyphicon-stop ancor-danger underline-none"></a>&nbsp;&nbsp;
-                    <a href="javascript:startScan('{_id}')" class="glyphicon glyphicon-play-circle ancor-success underline-none"></a>
+                    <a href="javascript:startScan('{stdRes.data[0]._id}')" class="glyphicon glyphicon-play-circle ancor-success underline-none"></a>
                 </p>
             </div>
             <div class="panel-body">
@@ -42,7 +42,6 @@
             <div class="panel-body">
                 <div class="panel panel-default margin-bottom-0">
                     <div class="panel-body">
-
                         <ol class="list-success">
                             {#stdRes.data[1]}
                             <li>

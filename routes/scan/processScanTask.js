@@ -1,6 +1,5 @@
+var http = require('http');
 var async = require("async");
-var ScanResultDao = require('../../dao/ScanResultDao');
-var ScanTaskDao = require('../../dao/ScanTaskDao');
 var options = process.argv;
 /*
 执行扫描的时候，
@@ -8,36 +7,39 @@ var options = process.argv;
 加载扫描模块
 执行任务
 */
+var taskId = options[2] || "";
 var task;
 var targets;
 var scanResults = [];
 var scanModels = [];
-var taskId = options[2]||"";
-console.log("---------------------processScanTask----------------------------")
+
 async.waterfall([function (waterfallcb) {
-    console.log("option : " + taskId)
-    ScanTaskDao.findById(taskId, function (err, t) {
-        console.log("---------------------ScanTaskDao.findById----------------------------")
+    getTask(taskId, function (err, data) {
         if (err) {
-            console.log(err);
+            waterfallcb(err);
         } else {
-            task = t;
-            targets = t.targets;
-            for (var i in task.scanModels) {
-                scanModels.push(eval(task.scanModels[i].code));
-            }
-            async.series(scanModels, function (err) {
-
-                ScanResultDao.saveScanResults(scanResults, function (err) {
-                    console.log("over");
-                    waterfallcb(null);
-                })
-
-            });
+            waterfallcb(null, data);
         }
-    })
+    });
+}, function (t, waterfallcb) {
+    task = JSON.parse(t).data[0];
+    targets = task.targets;
+    for (var i in task.scanModels) {
+        scanModels.push(eval(task.scanModels[i].code));
+    }
+    async.series(scanModels, function (err) {
+        saveScanResults(scanResults, function (err) {
+            if (err) {
+                waterfallcb(err);
+            } else {
+                waterfallcb(null);
+            }
+        })
+    });
+}, function (waterfallcb) {
+    ///save scanResults
 }], function (err) {
-
+    console.log(err)
 })
 
 /*
@@ -53,3 +55,57 @@ async.waterfall([function (waterfallcb) {
     cb(null);
 }})()
 */
+function getTask(id, cb) {
+    var options = {
+        host: "127.0.0.1",
+        port: 3000,
+        path: "/interface/task/" + id,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    var req = http.request(options, function (res) {
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            cb(null, chunk)
+        });
+        res.on('error', function (err) {
+            console.log('RESPONSE ERROR: ' + err);
+            cb(err)
+        });
+    });
+
+    req.on('error', function (err) {
+        console.log('REQUEST ERROR: ' + err);
+        cb(err)
+    });
+    req.end();
+}
+
+function saveScanResults(item, cb) {
+    var bodyString = JSON.stringify(item);
+    var options = {
+        host: '127.0.0.1',
+        port: 3000,
+        path: '/interface/saveScanResults/' + task._id,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': bodyString.length
+        }
+    };
+
+    var req = http.request(options, function (res) {
+        res.on('data', function (data) {
+            if (data.error) {
+                cb(data.message);
+            } else {
+                cb(null);
+            }
+        });
+    });
+
+    req.write(bodyString);
+    req.end(); //不能漏掉，结束请求，否则服务器将不会收到信息。
+}
