@@ -39,19 +39,28 @@ async.waterfall([function (waterfallcb) {
     async.eachSeries(targets, function (target, callback) {
         var f = []
         for (var i in task.scanModels) {
-            f.push(eval(task.scanModels[i].code));
+            f.push(eval("(function(){return "+task.scanModels[i].code+"})()"));
         }
         async.series(f, function (err) {
             callback(err);
         });
     }, function (err) {
-        console.log('1.3 err: ' + err);
+//        console.log('1.3 err: ' + err);
+        waterfallcb(err);
     });
 }, function (waterfallcb) {
     ///save scanResults
-    waterfallcb(null);
+    saveScanResults(scanResults, function (err) {
+        if (err) {
+            waterfallcb(err);
+        } else {
+            waterfallcb(null);
+        }
+    })
 }], function (err) {
-    console.log(err)
+    if (err) {
+        console.log(err)
+    }
 })
 
 /*
@@ -69,8 +78,7 @@ async.waterfall([function (waterfallcb) {
 	} 
 })()
 
-(function(){ 
-	return function(cb){ 
+(function(){return function(cb){ 
         var scanResult = {}; 
         
         scanResult.target = target.ip; 

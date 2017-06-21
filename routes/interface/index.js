@@ -63,6 +63,9 @@ router.post("/saveScanResults/:id", function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Save scan results';
     var taskId = req.params.id;
+//    console.log("-------------------saveScanResults-------------------------")
+//    console.log(req.body)
+//    console.log("//-----------------saveScanResults-------------------------")
     async.eachSeries(req.body, function (item, callback) {
         var sr = new ScanResult();
         sr.taskId = taskId;
