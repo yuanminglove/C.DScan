@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var user = require("./user/index")
 var scan = require("./scan/index")
+var interface = require("./scan/interface")
 var fringerPrint = require("./fringerPrint/index")
 
 

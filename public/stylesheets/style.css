@@ -18,8 +18,63 @@
     float: right;
 }
 
+.margin-bottom-0 {
+    margin-bottom: 0px;
+}
+
 .alert-default-1 {
     color: #686363;
     background-color: #f6f6f6;
     border-color: #e6e6e6;
+}
+
+.ancor-success {
+    color: #5cb85c !important;
+    border-color: #4cae4c;
+    opacity: .3;
+}
+
+.ancor-success:hover {
+    color: #449d44;
+    border-color: #398439;
+    opacity: .8;
+}
+
+.ancor-danger {
+    color: #a94442 !important;
+    border-color: #4cae4c;
+    opacity: .3;
+}
+
+.ancor-danger:hover {
+    color: #a94442;
+    border-color: #4cae4c;
+    opacity: .8;
+}
+
+.underline-none {
+    text-decoration: none;
+}
+
+.underline-none:hover {
+    text-decoration: none;
+}
+
+.item-info {
+    background-color: #f3f3f3;
+}
+
+.item-low {
+    color: #3c763d;
+    background-color: #dff0d8;
+}
+
+.item-middle {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+}
+
+.item-danger {
+    color: #a94442;
+    background-color: #f2dede;
 }

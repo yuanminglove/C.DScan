@@ -26,6 +26,9 @@ var ScanTasklDao = {
             }
         })
     },
+    "update": function (st, cb) {
+        ScanTask.update(st, cb);
+    },
     "findAll": function (cb) {
         ScanTask.find({}, null, {
             sort: [{
@@ -36,6 +39,22 @@ var ScanTasklDao = {
                 console.log(err);
                 cb(true);
             } else {
+                cb(null, data);
+            }
+        })
+    },
+    "findById": function (id, cb) {
+        console.log("---------------------findById----------------")
+        console.log("id : "+id)
+        ScanTask.findOne({
+            "_id": id
+        }, function (err, data) {
+        console.log("---------------------findById22222222----------------")
+            if (err) {
+                console.log(err);
+                cb(true);
+            } else {
+                console.log(data)
                 cb(null, data);
             }
         })

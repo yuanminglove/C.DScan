@@ -19,12 +19,14 @@
                 <div class="alert alert-info alert-dismissible" role="alert">
                     <p class="float-right">
                         <a href="javascript:deleteTaskById('{_id}')" title="删除task" class="close"><small class="glyphicon glyphicon-remove"></small></a>
+                        <br/>
+                        <a href="javascript:startScan('{_id}')" title="start" class="close ancor-success"><small class="glyphicon glyphicon-play"></small></a>
                     </p>
-                    <strong><a href="#">{name}</a></strong>
+                    <strong><a href="/scan/task/{_id}">{name}</a></strong>
                     <br/>
                     <p>
                         {@formatTime data=time formatString="yyyy-MM-dd HH:mm:ss"}{/formatTime}&nbsp;&nbsp;
-                        <a href="javascript:void(0)" class="float-right" data-trigger="click" data-toggle="tooltip" data-placement="bottom"  title="task note : {note}">more...</a>
+                        <a href="javascript:void(0)" class="float-right" data-toggle="tooltip" data-placement="bottom"  title="task note : {note}">more...</a>
                     </p>
                 </div>
             </div>{~n} {/stdRes.data}
@@ -50,6 +52,11 @@
                         $(this).remove();
                     });
                 }
+            });
+        }
+        function startScan(id) {
+            $.get("/scan/startScan/" + id, function(data) {
+                console.log(data)
             });
         }
 

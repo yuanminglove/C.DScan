@@ -83,7 +83,7 @@
                         <i class="glyphicon glyphicon-folder-close"></i>&nbsp;添加到分组
                     </a>&nbsp;
                     <a class="btn btn-primary btn-xs" href="javascript:formSubmit(0,'form1','/user/deleteAssets')">
-                        <i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除
+                        <i class="glyphicon glyphicon-trash"></i>&nbsp;删除
                     </a>
                 </div>
                 <div class="col-lg-12 text-center">

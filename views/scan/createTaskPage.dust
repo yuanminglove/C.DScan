@@ -22,7 +22,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             创建扫描任务
-                            <button type="submit" class="float-right btn btn-default btn-xs"> GO </button>
+                            <button type="submit" class="float-right btn btn-default btn-xs"> Create </button>
                         </h3>
                     </div>
                     <div class="panel-body">

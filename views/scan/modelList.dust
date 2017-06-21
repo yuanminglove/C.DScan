@@ -26,10 +26,13 @@
                         </thead>
                         <tbody>
                             {#stdRes.data}
-                            <tr>
-                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">{name}</td>
+                            <tr id="{_id}_block">
+                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}"><span class="caret"></span>&nbsp;{name}</td>
                                 <td>{@substr data="{note}" start="0" len="4"}{/substr}</td>
-                                <td></td>
+                                <td class="text-right">
+                                     <a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                                    <a class="btn btn-info btn-xs" href="javascript:deleteModel('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
+                                </td>
                             </tr>
                             <tr class="collapse" id="{_id}">
                                 <td colspan="3">
@@ -53,6 +56,18 @@
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
+        function deleteModel(id) {
+            $.get("/scan/deleteModel/" + id, function(data) {
+                if (data.err) {
+                    console.log(err);
+                } else {
+                    $("#" + id + "_block").hide(500, function() {
+                        $(this).remove();
+                        $("#" + id).remove();
+                    });
+                }
+            });
+        }
 
     </script>
 </body>

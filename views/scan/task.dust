@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
+
+    <title>{stdRes.title}</title>
+
+</head>
+
+<body>
+    {>"layouts/nav" /}
+
+    <div class="container">
+        <br/>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {stdRes.data[0].name}
+                <p class="float-right">
+                    <a href="#" class="glyphicon glyphicon-repeat underline-none"></a>&nbsp;&nbsp;
+                    <a href="#" class="glyphicon glyphicon-stop ancor-danger underline-none"></a>&nbsp;&nbsp;
+                    <a href="javascript:startScan('{_id}')" class="glyphicon glyphicon-play-circle ancor-success underline-none"></a>
+                </p>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default margin-bottom-0">
+                    <div class="panel-body">
+                        {#stdRes.data[0].targets}
+                        <span class="label label-success">{ip}</span>&nbsp; {~n} {/stdRes.data[0].targets}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default margin-bottom-0">
+                    <div class="panel-body">
+                        {#stdRes.data[0].scanModels}
+                        <span class="label label-success">{name}</span>&nbsp; {~n} {/stdRes.data[0].scanModels}
+                    </div>
+                </div>
+            </div>
+            {@select key=stdRes.data[1].length}{@gt value=0}
+            <div class="panel-body">
+                <div class="panel panel-default margin-bottom-0">
+                    <div class="panel-body">
+
+                        <ol class="list-success">
+                            {#stdRes.data[1]}
+                            <li>
+                                <p class="{@select key=level}
+                                          {@eq value=0}item-info{/eq}
+                                          {@eq value=1}item-low{/eq}
+                                          {@eq value=2}item-middle{/eq}
+                                          {@eq value=3}item-danger{/eq}
+                                          {/select}">{target}:{port} - {outPut} </p>
+                            </li>
+                            {~n} {/stdRes.data[1]}
+                        </ol>
+                    </div>
+                </div>
+            </div>{/gt}{/select}
+<!--
+            <div class="panel-body">
+                <div class="panel panel-default margin-bottom-0">
+                    <div class="panel-body">
+                        <ol type="1">
+                            <li>
+                                <p class="item-info">asd</p>
+                            </li>
+                            <li>
+                                <p class="item-middle">asd</p>
+                            </li>
+                            <li>
+                                <p class="item-low">asd</p>
+                            </li>
+                            <li>
+                                <p class="item-danger">asd</p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+-->
+        </div>
+    </div>
+
+
+
+
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
+    <script type="text/javascript">
+        function startScan(id) {
+            $.get("/scan/startScan/" + id, function(data) {
+                console.log(data)
+            });
+        }
+
+    </script>
+</body>
+
+</html>

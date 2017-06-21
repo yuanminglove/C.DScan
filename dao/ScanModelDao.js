@@ -9,9 +9,9 @@ var ScanModelDao = {
     },
     "save": function (sm, cb) {
         var model = new ScanModel();
-        model.name = sm.name||"New Scan Model_"+Date.now();
-        model.code = sm.code||"console.log("+Date.now()+")";
-        model.note = sm.note||"Scan model .";
+        model.name = sm.name || "New Scan Model_" + Date.now();
+        model.code = sm.code || "console.log(" + Date.now() + ")";
+        model.note = sm.note || "Scan model .";
         model.save(cb);
     },
     "findAll": function (cb) {
@@ -25,7 +25,11 @@ var ScanModelDao = {
         })
     },
     "findByIds": function (ids, cb) {
-        ScanModel.find({"_id":{$in:ids}}, function (err, data) {
+        ScanModel.find({
+            "_id": {
+                $in: ids
+            }
+        }, function (err, data) {
             if (err) {
                 console.log(err);
                 cb(true);
@@ -34,10 +38,10 @@ var ScanModelDao = {
             }
         })
     },
-    "deleteById": function (id) {
+    "deleteById": function (id, cb) {
         ScanModel.remove({
             "_id": id
-        })
+        }, cb)
     }
 }
 

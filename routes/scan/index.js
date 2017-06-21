@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var async = require("async");
 var functionPart = require('./functionPart')
+var child_process = require('child_process');
 
 var cUtils = require('../../utils/commonUtils')
 var HostGroupDao = require('../../dao/HostGroupDao')
@@ -9,6 +10,7 @@ var ScanModelDao = require('../../dao/ScanModelDao')
 var ScanTaskDao = require('../../dao/ScanTaskDao')
 var StdResponse = require('../../models/StdResponse')
 var HostDao = require('../../dao/HostDao')
+var ScanResultDao = require('../../dao/ScanResultDao')
 
 
 router.use(function (req, res, next) {
@@ -32,10 +34,23 @@ router.get("/scanModels", function (req, res, next) {
     })
 
 })
-router.get("/addModelPage", function (req, res, next) {
+router.get("/createModelPage", function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Scan model';
-    res.render("scan/model")
+    res.render("scan/createModelPage")
+})
+router.get("/deleteModel/:id", function (req, res, next) {
+    var stdRes = new StdResponse();
+    stdRes.title = 'Scan model';
+    ScanModelDao.deleteById(req.params.id, function (err) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "scan/deleteModel Error !"
+            res.json(stdRes);
+        } else {
+            res.json(stdRes);
+        }
+    })
 })
 router.post("/addModel", function (req, res, next) {
     var stdRes = new StdResponse();
@@ -170,17 +185,77 @@ router.get("/tasks", function (req, res, next) {
             })
         }
     })
-})
-router.get("/deleteTaskById/:id",function(req, res, next){
+});
+router.get("/task/:id", function (req, res, next) {
+    var stdRes = new StdResponse();
+    stdRes.title = 'Scan task detail';
+    ScanTaskDao.findById(req.params.id, function (err, task) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "/scan/tasks ERROR!";
+            res.render('scan/task', {
+                "stdRes": stdRes
+            });
+        } else {
+            stdRes.data.push(task);
+            ScanResultDao.findByConditions({
+                "taskId": task._id
+            }, function (err, scanResult) {
+                if (err) {
+                    stdRes.err = true;
+                    stdRes.message = "/scan/task ERROR!";
+                    res.json(stdRes)
+                } else {
+                    stdRes.data.push(scanResult);
+                    res.render("scan/task", {
+                        "stdRes": stdRes
+                    })
+                }
+            })
+
+        }
+    })
+});
+router.get("/deleteTaskById/:id", function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Scan delete tasks';
-    ScanTaskDao.deleteById(req.params.id,function(err){
+    ScanTaskDao.deleteById(req.params.id, function (err) {
         if (err) {
             stdRes.err = true;
             stdRes.message = "/scan/tasks ERROR!";
             res.json(stdRes)
         } else {
             res.json(stdRes)
+        }
+    })
+})
+
+router.get("/startScan/:id", function (req, res, next) {
+    var child;
+    var stdRes = new StdResponse();
+    stdRes.title = 'Scan delete tasks';
+    ScanTaskDao.findById(req.params.id, function (err, task) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "/scan/startScan ERROR!";
+            res.json(stdRes)
+        } else {
+            /*创建扫描进程，执行扫描任务，添加扫描进程PID到任务中  */
+            //child_process.fork(modulePath[, args][, options])
+            //Cannot find module '/home/chris/Documents/C.DScan/scanTask.js'
+            child = child_process.fork("./routes/scan/processScanTask.js", [task._id]);
+            task.pid = child.pid;
+            ScanTaskDao.update(task, function (err) {
+                if (err) {
+                    stdRes.err = true;
+                    stdRes.message = "/scan/startScan ERROR!";
+                    //child_process.exec(command[, options][, callback])
+                    child_process.exec("kill", child.pid)
+                    res.json(stdRes)
+                } else {
+                    res.json(stdRes)
+                }
+            })
         }
     })
 })
