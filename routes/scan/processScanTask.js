@@ -24,18 +24,6 @@ async.waterfall([function (waterfallcb) {
 }, function (t, waterfallcb) {
     task = JSON.parse(t).data[0];
     targets = task.targets;
-    //    for (var i in task.scanModels) {
-    //        scanModels.push(eval(task.scanModels[i].code));
-    //    }
-    //    async.series(scanModels, function (err) {
-    //        saveScanResults(scanResults, function (err) {
-    //            if (err) {
-    //                waterfallcb(err);
-    //            } else {
-    //                waterfallcb(null);
-    //            }
-    //        })
-    //    });
     async.eachSeries(targets, function (target, callback) {
         var f = []
         for (var i in task.scanModels) {
@@ -64,19 +52,6 @@ async.waterfall([function (waterfallcb) {
 })
 
 /*
-(function(){ 
-	return function(cb){ 
-		for (var i in targets) { 
-			var scanResult = {}; 
-			scanResult.target = targets[i].ip; 
-			scanResult.port = 80; 
-			scanResult.level = 1; 
-			scanResult.outPut = "output"; 
-			scanResults.push(scanResult); 
-		} 
-		cb(null); 
-	} 
-})()
 
 (function(){return function(cb){ 
         var scanResult = {}; 

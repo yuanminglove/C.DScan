@@ -83,8 +83,8 @@ textarea::-webkit-input-placeholder:after{
   display:block;
   content:"line@ \A line#";/*  \A 表示换行  */
   color:red;
-};
+}
 textarea::-moz-placeholder:after{
   content:"line@ \A line#";/*  \A 表示换行  */
   color:red;
-};
+}

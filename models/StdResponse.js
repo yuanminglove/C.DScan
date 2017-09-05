@@ -5,12 +5,12 @@ var StdResponseScheMa = new Schema({
     "status" : {type : Number, default : 200},
     "message" : {type : String, default : "null"},
     "title" : {type : String, default : "C.DScan"},
-    "data" : {type : Array},
+    "data" : {type : Object},
     "page" : {
     	"currentPage" : {type : Number, default : 0},
     	"skip" :{type : Number, default : 0},
     	"totalRows" : {type : Number, default : 100},
-    	"pageRows" : {type : Number, default : 2},
+    	"pageRows" : {type : Number, default : 25},
     	"hideData" : [{
     		"name" : {type : String},
     		"value" : {type : String}

@@ -29,7 +29,6 @@
                         <thead>
                             <tr>
                                 <th width="200px">IP</th>
-                                <th width="500px">服务</th>
                                 <th width="20px" class="text-right">操作</th>
                             </tr>
                         </thead>
@@ -37,16 +36,16 @@
                             {#hosts}
                             <tr id="{_id}_block">
                                 <input name="hostId" type="hidden" value="{_id}" />
-                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
+                                <td class="hover-pointer" >
                                     <div class="row">
                                         <div class="col-lg-2"><span class="caret"></span></div>
-                                        <div class="col-lg-5">{ip}</div>
+                                        <div class="col-lg-5"><a href="http://{ip}" target="_blank">{ip}</a></div>
                                         <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
-                                            <small class="italic">
-                        <i>
-                          {@substr data="{businessName}" start="0" len="4"}{/substr}
-                        </i>
-                      </small>
+                                            <small class="italic" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
+                                                <i>
+                                                  {@substr data="{businessName}" start="0" len="4"}{/substr}
+                                                </i>
+                                            </small>
                                         </div>
                                         <div class="col-lg-2">
                                             <i id="{_id}_isAliveSymbol" class='glyphicon
@@ -57,12 +56,6 @@
 
                                     </div>
 
-                                </td>
-                                <td>
-                                    <!-- <a class="badge btn-success" href="#">FTP</a>&nbsp;
-                  <a class="badge btn-success" href="#">HTTP</a>&nbsp;
-                  <a class="badge btn-success" href="#">SSH</a>&nbsp;
-                  <a class="badge btn-success" href="#">TELNET</a> -->
                                 </td>
                                 <td class="text-right">
                                     <a class="btn btn-info btn-xs" href="javascript:deleteHostOwnGroup('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>

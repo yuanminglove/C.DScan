@@ -57,28 +57,6 @@
                     </div>
                 </div>
             </div>{/gt}{/select}
-<!--
-            <div class="panel-body">
-                <div class="panel panel-default margin-bottom-0">
-                    <div class="panel-body">
-                        <ol type="1">
-                            <li>
-                                <p class="item-info">asd</p>
-                            </li>
-                            <li>
-                                <p class="item-middle">asd</p>
-                            </li>
-                            <li>
-                                <p class="item-low">asd</p>
-                            </li>
-                            <li>
-                                <p class="item-danger">asd</p>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
--->
         </div>
     </div>
 

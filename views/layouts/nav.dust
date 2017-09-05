@@ -38,6 +38,18 @@
 						<li><a href="/scan/createModelPage">新增模块</a></li>
 					</ul>
 				</li>
+                <li class="dropdown">
+                    <a id="FringerPrintMenu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">报告
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="FringerPrintMenu">	
+						<li><a href="/report/bugs">漏洞列表</a></li>
+						<li><a href="/report/addBugPage">新增漏洞</a></li>
+                        <li role="separator" class="divider"></li>	
+                        <li><a href="/report/reportTemplates">报告模版</a></li>
+                        <li><a href="/report/bugTemplates">漏洞模版</a></li>		
+                    </ul>
+                </li>
                 <li><a href="/scan/tasks">任务</a></li>
 
 			</ul>

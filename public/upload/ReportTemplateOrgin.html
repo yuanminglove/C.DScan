@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="author" content="Chris.D"/>
+	</head>
+	<style type="text/css">*{margin: 0;padding: 0};td{padding: 5px}</style>
+	<body style="width:800px;margin:0 auto;">
+		<div id="cover_page">
+			<p style="padding:100px 0 0 0">&nbsp;</p>
+			<h1 style="text-align:center">
+				安徽移动渗透测试报告<br/>
+				<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABLAHkDASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAcIBAUGAwEC/8QAQhAAAQMEAAMFBAMLDQAAAAAAAQIDBAAFBhEHEiEIEzFBURQVImGBkdEXMjNCUlVXYpSVtBYYI1RxkpOhscHT4vH/xAAZAQEBAQEBAQAAAAAAAAAAAAAABQMCBAH/xAAyEQABAwIDBAcIAwAAAAAAAAABAAIDBBESIVEFEzFBFWFxgZGhwRQiMoKx0dLwJGKS/9oADAMBAAIRAxEAPwC5dKUoiUpSiJSlKIlKUoiUpSiJSlKIlKUoiUpSiJSlKIlKVx/FvOYeAYk5epDJlSFuBiHGSdF51W9DfkAAST6D11XTGOkcGtFyVy97WNLnHILsKVUu68YuILE91u6Zzj9ikg/FAZtipJjn8hSghQ5h5jmJB6HR6Vjfdoy/9K9p/cC/+Oqg2NORe48/spx2rCNfL7q3tKhfs+5Jl+YXCbc7lmcW9WiInue7Ytfs+3laI+JSASAnyHqN1NAqfPCYXljjmP3nZe6GYTMxjglKUrFapSlKIlKUoiUpSiLDvN0t9ntj9yuktqJDjo53XnVaSgfP7POojXx/tsqQ77gw3JrzEQrlEpiOAhR89A7P16Pyrn+1Dc1zsws2MTFuiyxIDt4nMtr5faO7CuVB/ucoPlzk+QrH4T8JmM6xuLlWbXCW4xLQTAtkNzuGIzIJCdAeA6dANdOpJJNWoKOnipxPUc+H7zOWuSjzVVRJOYYOX766LqPu6Sf0Z5d/gj7K5zjRep+S4Vi2fO45crdBst+DsqJJSO97kFI73lHgOYaG/Uetfu9YL2fLLdH7ZdL2qLMjqCXWV3R3mQdA6OvPRFSBaMx4U2jCI1ui5BavcDINvQHVlaFEI5ihWx8RKTs78d19duYi18EbuOh4eJXxu9kDmTSDhqOPgFDnCzJmsJtc2DK4eysoTKmLlMXe3sokJktr+92og6I/J6EEkEA+PXq4w2OOO9uHCK/xIyerjyra2QgeZPQf61rZtj7NMiW5Iav0WH3h2puLcnm29/JPlXN8QovBmx4nMuWD5dNbyFnlML2W5POKK+YdCD01rfX/AMPpwwzye8x1z1EeqxxSwsye2w6wfRWQ4e5BjWS463dcWcYVBcUQpLbQbKF9NpWnyV4f5eIreSpUaKgLkvtMJJ0FOLCQT9NV+7NCn4/EvKoaGww05boUmbHbTptqYpCS4AB0SdqX08vDyrVdq5hNy4sYVZ5bjioUhLbbjYUdALkhCiB5Hl6b+VTvYQ6q3Qdla+vK69wrS2m3ts7287Kx3vm0/nOF+0I+2nvm0/nOF+0I+2qwZnY7TisSbcrn2f4bVrjPlsSlXxZCklfKhWgSfi6fXX7xXH7fkcGBdLd2e4btsmLTyyU3xWuTn5VK0SD00fqrro9mDHiy+X8lz7c/FgsL/N+KtDFuEGUsojTI76gNkNupUQPXoa+SLlAju90/NjNOAbKVupSdf2E1Wvsvw4tv45ZtBhMpajxmn2WUJ8EoTKASPXwAr17Tdzwu6ZZ7pYsy5uXQg224pcF11tbJSV8g7taVFQ5gd6PmK5Oz/wCTuQSRa97fXNdCvO43pAve1rqwz2Q2FkEvXq2tgea5bY/3rnr5xW4d2dKvbMutZUkb5GHe/V9TezVar9H4frxWILHw4uMTIU8ntRl2qY9FV00sJ/pAodeo2PkfWsm9XPDo+GxU43wkc/lMe7EhyVZ3nIqNffqQFklW9aAI6b+VehmzI7i+I525D1OSxdtF+dreZ9FaLB8usGaWUXbHpyZUbnLaxrlW2seKVJPVJ8+vkQa31RF2ds5sF9ti8diRkx7zCYD09DNsRDZBKuXlSlJ/FOk9ep8flUu9al1MW5lLCLdqowS7yMOvdVn7TDa3OKaW0pPM9iUpLf6xHeqIH0JNSl2eZzU3gtYDCcbccYjKYWCeiXEqV8KvTy+g1941cP5OYwoNzsktEHIrQ4XYLyx8Cwdcza+h6HQ9fPY0TULWXC+IVjlyV2vGsvx1x4jv27Jco64rih5pS4rYHoNq14b1VhroqujbFiDS3Xv+/JSXCWmq3SYSQdO5OKuA5pjVjueY3t7C55Dwckd3awp1a3Fgb2pA31PnWbjOB3LKbXklrxxNgiog5Q8ru7hD71tKCwkAIGjy/ZXlfcY4lX22O2y8R+I86G7rnZeegqSrR2Njn8iAalbgHaL5bm8pl3uzSbSq5XhUphl9SFK7soSOpSSPEareepdFTfG0uGluq2XisYadslR8JDTr38/BRz9wfOf61w//AHP/ANK9I3AzP2ZDbjF6wy3LSdiRDtADzfzSSjofmCD86slSpXStR1eAVPo2Dr8Vx3CrALXgFkdhQ3npkuU5302a/wDhJDnqfQDZ0OviSSSSahjtN9OOGB/IsfxYqzFV/wC0biWXXfiTjN+x3HpF2YtrSFud24hI5kP8/LtRGtgeOjXWzpsVVjkdmQcz2Lmuiw0+Bg4EcO1aztEYo5FxC+30cRL1cW3JqXBaXJaFR087w0kJHXSN9PTQrRYJIZxHEMDyW4ZplPsM2alDluiSW/Zo2nD8K2yebkVok66+PqK2juKNuPLeX2aHStaipR9+9SSdnzr4jE20OJcR2aXQtJCgffvmOo86pMkaIRE43z/ppa3xeanuYTKZGi3+tb6L17N+v5wGfempX8XWP2h8jtknPI1ntLTWNyW5gTccocYWysLSgDu0OoHMoBKhvR69B4bNdR2dsHy6051kuX5Lak2lNzCw1GU6la+Zb3eH70nSRrXXqfSum4o2/iVlNxkYzYYVotVhWlIdu0tQedcCk/EG2tHlI2Rs9fQisHzRitxXBAAF75cB237M1uyF5pMNje55dfdbtUR2fMcthcQbXi2PcSpOS2SNH9omTBEQQ2yhKlubUeZSylIHUq2SQmtLnecZgMRt19tPFe7XWO9NcilDcEW9xCkNpUSQk7Uk8w1vpurFcLuFeOYHZX4cVsz5cxvu5suQkc7yT+JrwSj9UfSTUU8euCUVq22xXDfEVGUqSv2sMPk6b5Ph/CL0BzelaQVdI+oDbZakNz43J0Wc1NUthLr56XOXDhqpH4QYpcrLcpd1uOVWy+OTYyCRHtrEd1KirmKlrR8S978/Pr41Jlchw+4eYphnPKsNlRAlyWENyVh1ayrXXXxE6678K7DfyqJUyCSQuBv3AeQVeCMsjAIt33+qU0KUrBbpoelKUoiUpSiJSlKImh6U0PSlKIlKUoiUpSiJSlKIv//Z"/>
+			</h1>		
+			<p style="padding:100px 0 0 0">&nbsp;</p>
+			<p style="text-align:center">北京国舜科技</p>
+			<p style="text-align:center">股份有限公司</p>
+			<p style="text-align:center">UnisGuard  Corp.</p>
+			<p style="text-align:center">©2013-2016 版权所有</p>
+			<p style="text-align:center">北京市海淀区学清路金马大厦B座708</p>
+			<p style="text-align:center">电话：+86-010-62789255  传真：+86-010-62773007</p>
+			<p style="text-align:center">E-mail: contact@unisguard.com</p>
+			<p style="text-align:center">日期: 2018-09-01</p>
+		</div>
+		<div id="catalog">
+			<p style="padding:100px 0 0 0">&nbsp;</p>
+			<center>目录</center>
+			<p style="padding:30px 0 0 0">&nbsp;</p>
+			<ol style="margin-left:20px">
+				<li>概述</li>
+				<li>术语、定义和缩略语</li>
+				<li>测试依据</li>
+				<li>测试环境与工具</li>
+				<li>安全风险分析及其整改意见</li>
+				<li>附录A. 安全风险状况等级说明</li>
+			</ol>
+		</div>
+		<div id="content">
+			<p style="padding:100px 0 0 0">&nbsp;</p>
+			<p style="padding:20px">
+				<h4>1.概述</h4><br/>
+				<p>现对安徽移动公司客响系统进行渗透测试，发现该系统存在于web程序方面的安全漏洞，分析漏洞成因并提出解决方案。</p>
+				
+			</p>
+			<p style="padding:20px">
+				<h4>2.术语、定义和缩略语</h4><br/>				
+				<p style="text-indent:2em;">渗透测试：（Penetration Testing）是由具备高技能和高素质的安全服务人员发起、并模拟常见黑客所使用的攻击手段对目标系统进行模拟入侵。渗透测试服务的目的在于充分挖掘和暴露系统的弱点，从而让管理人员了解其系统所面临的威胁。</p><br/>
+				<p style="text-indent:2em;">跨站脚本：（XSS，Cross Site Script），指服务端程序在接收用户提交信息时没有对信息进行必要的检查或编码而导致页面包含了可能对客户端造成伤害的脚本。跨站脚本直接对客户端浏览器产生影响，如：窃取敏感信息、下载恶意程序、钓鱼等，而由于跨站而形成的XSS Worm可能造成更大的威胁。</p><br/>
+				<p style="text-indent:2em;">注入漏洞：常见的为SQL注入（SQL Injection），SQL注入是指当服务端接受客户端信息时，未对客户端信息进行任何校验就将其送入数据库中进行查询操作，而恶意用户只需对客户端提交信息进行一定的构造，就可以导致数据执行一些危险操作。</p><br/>
+			</p>
+			<p style="padding:20px">
+				<h4>3.测试依据</h4><br/>
+				<p  style="text-indent:2em;">国舜股份渗透测试服务将遵循国舜科技成熟的安全评估方法论，参考《OWASP TOP10 2013》，OWASP测试指南：《OWASP Testing Guide v4》，以及业界权威的渗透测试执行标准PTES，开源安全测试方法OSSTMM3等。并在此次项目中结合《中国移动门户网站安全技术规范》、《中国移动WEB类应用系统安全防护技术要求》以及运营商行业的多项最佳实践进行实施。</p>
+				
+			</p>
+			<p style="padding:20px">
+				<h4>4.测试环境与工具</h4><br/>
+				<p  style="text-indent:2em;">WEB扫描器： Acunetix Web Vulnerability Scanner</p><br/>
+				<p  style="text-indent:2em;">会话调试：burp suite,sqlmap</p>
+				
+			</p>
+			<p style="padding:20px">
+				<h4>5.安全风险分析及其整改意见</h4><br/>
+				<ol style="margin-left:30px" data-target="bugDetail">
+					<li>{{serviceName}} - {{bugName}}
+						<table border="1px solid #000000" cellspacing="0" width="100%">
+							<tr>
+								<th style="padding:8px" width="65px">漏洞名称</th>
+								<td style="padding:8px">{{bugname}}</td>
+								<th style="padding:8px" width="65px">业务名称</th>
+								<td style="padding:8px">{{servicename}</td>
+							</tr>
+							<tr>
+								<th style="padding:8px">漏洞地址</th>
+								<td colspan="3" style="padding:8px">{{url}}</td>
+							</tr>
+							<tr>
+								<th style="padding:8px" width="65px">危害等级</th>
+								<td style="padding:8px">{{level}}</td>
+								<th style="padding:8px" width="65px">测试人员</th>
+								<td style="padding:8px">{{discoverer}</td>
+							</tr>
+							<tr>
+								<th style="padding:8px">漏洞描述</th>
+								<td colspan="3" style="padding:8px">{{describe}}</td>
+							</tr>
+							<tr>
+								<th style="padding:8px">漏洞危害</th>
+								<td colspan="3" style="padding:8px">{{harm}}</td>
+							</tr>
+							<tr>
+								<th style="padding:8px">漏洞描述</th>
+								<td colspan="3" style="padding:8px">{{detail}}</td>
+							</tr>
+							<tr>
+								<th style="padding:8px">修复建议</th>
+								<td colspan="3" style="padding:8px">{{repairSuggestions}}</td>
+							</tr>
+					
+						</table>
+					</li>
+				</ol>
+				
+				
+			</p>
+		</div>
+
+		<div id="appendix">
+			<p style="padding:100px 0 0 0">&nbsp;</p>
+			<h4>附录A. 安全风险状况等级说明</h4><br/>
+			<table border="1px solid #000000" cellspacing="0">
+				<thead>
+					<tr>
+						<th colspan="2" style="padding:8px"><h2>安全风险状况说明</h2></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="100px" style="text-indent:1em;"><strong style="color:rgb(10, 207, 68)">良好状态</strong></td>
+						<td style="text-indent:2em;padding:8px">信息系统处于良好运行状态，没有发现或只存在零星的低风险安全问题，此时只要保持现有安全策略就满足了本系统的安全等级要求。</td>
+					</tr>
+					<tr>
+						<td width="100px" style="text-indent:1em;"><strong style="color:rgb(239, 204, 15)">预警状态</strong></td>
+						<td style="text-indent:2em;padding:8px">信息系统中存在一些漏洞或安全隐患，此时需根据评估中发现的网络、主机、应用和管理等方面的问题对进行有针对性的加固或改进。</td>
+					</tr>
+					<tr>
+						<td width="100px" style="text-indent:1em;"><strong style="color:rgb(251,186,59)">严重状态</strong></td>
+						<td style="text-indent:2em;padding:8px">信息系统中发现存在严重漏洞或可能严重威胁到系统正常运行的安全问题，此时需要立刻采取措施，例如安装补丁或重新部署安全系统进行防护等等。</td>
+					</tr>
+					<tr>
+						<td width="100px" style="text-indent:1em;"><strong style="color:rgb(255, 0, 0)">紧急状态</strong></td>
+						<td style="text-indent:2em;padding:8px">信息系统面临严峻的网络安全态势，对组织的重大经济利益或政治利益可能造成严重损害。此时需要与其他安全部门通力协作采取紧急防御措施。</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="page_footer">
+			<p style="padding:500px 0 0 0">&nbsp;</p>			
+		</div>
+	</body>
+</html>
