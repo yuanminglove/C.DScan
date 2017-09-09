@@ -34,9 +34,9 @@
                     <td class="text-right">
                         <a class="btn btn-success btn-xs" href="/report/bugHtmlView/{_id}" title="HTML预览" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
                         &nbsp;
-                        <a class="btn btn-info btn-xs" href="/report/editBugReport/{_id}" title="HTML预览" target="_blank"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a class="btn btn-info btn-xs" href="/report/editBugReport/{_id}" title="编辑"><i class="glyphicon glyphicon-pencil"></i></a>
                         &nbsp;
-                        <a class="btn btn-info btn-xs" href="javascript:deleteBugReport('{_id}')" title="HTML预览"><i class="glyphicon glyphicon-trash"></i></a>
+                        <a class="btn btn-info btn-xs" href="javascript:deleteBugReport('{_id}')" title="删除"><i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                 </tr>
                 {/stdRes.data.bugs} 

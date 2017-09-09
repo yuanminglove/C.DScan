@@ -13,7 +13,7 @@
     <div class="container">
         <br/>
         <div class="row">
-            <form action="/report/addBug" method="post">
+            <form action="/report/addBug" method="post" onsubmit="beforeAddBug()">
                 <input name="_id" type="hidden" value="{stdRes.data.bugReport._id}"/>
                 <div class="form-group col-lg-12">
                     <label for="">url：</label>
@@ -78,9 +78,9 @@
         ue.ready(function() {
             ue.setContent(decodeURI('{stdRes.data.bugReport.detail|u}'));
         });
-        ue.addListener( 'contentChange', function( editor ) {
+        function beforeAddBug(){
             describe.val(ue.getContent());
-        });
+        }
     </script>
     <script type="text/javascript">
 

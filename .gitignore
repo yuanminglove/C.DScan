@@ -1,5 +1,7 @@
 !/public/static/.gitkeep
+!/public/ueditor/img/.gitkeep
 /public/static/
+/public/ueditor/
 /node_modules/
 /public/upload/upload*
 *test*.js

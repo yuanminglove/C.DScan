@@ -74,6 +74,9 @@ var HostDao = {
                 }
             });
     },
+    "findByIp" : function(ip,cb){
+        HostModel.findOne({"ip" : ip},cb);
+    },
     "deleteHost": function (hostId, cb) {
         HostModel.findOne({
             "_id": hostId

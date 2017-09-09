@@ -13,7 +13,7 @@
     <div class="container">
         <br/>
         <div class="row">
-            <form action="/report/addBug" method="post">
+            <form action="/report/addBug" method="post" onsubmit="beforeAddBug()">
                 <input name="_id" type="hidden" value=""/>
                 <div class="form-group col-lg-12">
                     <label for="">url：</label>
@@ -78,9 +78,24 @@
         ue.ready(function() {
             ue.setContent('<p><span style="color: rgb(191, 191, 191);">发现过程 &amp; 复现条件 （说明和漏洞证明截图）!</span></p>');
         });
-        ue.addListener( 'contentChange', function( editor ) {
+        function beforeAddBug(){
             describe.val(ue.getContent());
-        });
+        }
+        $("input[name='url']").on("change",function(){
+            var m = $(this).val().match(/^([a-zA-z]+:\/\/)?([a-zA-z0-9\.]+)(\/[^/?#;]+)*(\??)(&?[^#;]+)*#?([\s\S]+)?/);
+            if(m[2]){
+                $.get("/user/getAssetByIp/" + m[2] ,function(data){
+                    console.log(data);
+                    if(data.err){
+                        alert(data.err)
+                    }else if(!data.data){
+                        console.log("Data is NULL")
+                    }else{
+                        $("input[name='serviceName']").val(data.data.businessName)
+                    }                    
+                });
+            }            
+        })
     </script>
     <script type="text/javascript">
 

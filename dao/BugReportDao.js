@@ -22,6 +22,7 @@ var BugReportDao = {
                     data.bugName = req.body.bugName;
                     data.bugTemplateId = req.body.bugTemplateId;
                     data.reportTemplateId = req.body.reportTemplateId;
+                    console.log(req.body.detail)
                     data.save(cb)
                 }
             })

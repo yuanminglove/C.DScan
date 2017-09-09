@@ -118,6 +118,20 @@ router.get('/assets', function (req, res, next) {
         }
     })
 });
+/* GET 资产列表 */
+router.get('/getAssetByIp/:ip', function (req, res, next) {
+    var stdRes = new StdResponse();
+    stdRes.title = 'Assets List';
+    HostDao.findByIp(req.params.ip, function (err, data) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "/user/assets ERROR!";
+        } else{
+            stdRes.data = data;
+        }
+        res.json(stdRes)
+    })
+});
 /* GET 资产列表 带分页数据 */
 router.post('/assets', function (req, res, next) {
     var stdRes = new StdResponse();
