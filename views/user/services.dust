@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    {>"layouts/baseMeta" /} {>"layouts/baseCss" /}
+
+    <title>{stdRes.title}</title>
+
+</head>
+
+<body>
+    {>"layouts/nav" /}
+
+    <div class="container">
+        <br/>
+        <div class="row">
+            <form id="form1" action="/user/addToHostGroup" method="POST">
+                <div class="col-lg-12">
+                    <table id="selectAll_" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="15px">
+                                    <input class="margin-top-0" type="checkbox" id="selectAll" data-selectTarget="selectAll_" title="全选">
+                                </th>
+                                <th width="100px">URL</th>
+                                <th width="100px">URL</th>
+                                <th width="100px">业务名称</th>
+                                <th width="200px" class="text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#stdRes.data}
+                            <tr id="{_id}_block">
+                                <td>
+                                    <input class="margin-top-0" type="checkbox" name="hideData" value="serviceId:{_id}" title="选择">
+                                </td>
+                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
+                                    <div class="">
+                                        <span class="caret"></span>
+                                        <a href="{url}" target="_blank">{@substr data="{url}" start="0" len="25"}{/substr}</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div data-toggle="tooltip" data-placement="right" title="业务名称 : {serviceName}">
+                                        <small class="italic">
+                                            <i>
+                                                {@substr data="{serviceName}" start="0" len="3"}{/substr}
+                                            </i>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td class="text-right">
+                                    <a class="btn btn-info btn-xs" href=""><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                                    <a class="btn btn-info btn-xs" href="javascript:deleteService('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="collapse" id="{_id}">
+                                <td colspan="4">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal">
+
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>{~n} {/stdRes.data}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4 text-center"></div>
+                <div class="col-lg-4 text-right">
+                    <a class="btn btn-primary btn-xs small" href="javascript:formSubmit(0,'form1','/user/selectGroupToAdd')">
+                        <i class="glyphicon glyphicon-folder-close"></i>&nbsp;添加到分组
+                    </a>&nbsp;
+                    <a class="btn btn-primary btn-xs" href="javascript:formSubmit(0,'form1','/user/deleteAssets')">
+                        <i class="glyphicon glyphicon-trash"></i>&nbsp;删除
+                    </a>
+                </div>
+                <div class="col-lg-12 text-center">
+                    {>"layouts/basePage" /}
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    {>"layouts/baseJavascript" /} {>"layouts/basePlugin" /}
+    <br/><br/>
+    <script type="text/javascript">
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        function getNoteById(noteId) {
+            var target = $("#" + noteId + "_notes");
+            if (target.attr("data-clicked") == "false") {
+                $.get("/user/note/" + noteId, function(data) {
+                    var note = data.stdRes.data;
+                    var result = "";
+                    for (var i = 0; i < note.length; i++) {
+                        result += '<dt title="' + note[i].noteName + '">' + note[i].noteName + '</dt><dd>' + note[i].noteValue + '</dd>';
+                    }
+                    target.attr("data-clicked", "true");
+                    target.html(result);
+                });
+            }
+        }
+
+        function deleteAsset(hostId) {
+            $.get("/user/deleteAsset/" + hostId, function(data) {
+                if (data.err) {
+                    console.log(err);
+                } else {
+                    $("#" + hostId + "_block").hide(500, function() {
+                        $(this).remove();
+                        $("#_" + hostId).remove();
+                    });
+                }
+            });
+        }
+
+        function deleteAssets() {
+            var ids = [];
+        }
+
+    </script>
+</body>
+
+</html>

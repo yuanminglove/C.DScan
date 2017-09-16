@@ -32,14 +32,16 @@
                                 <td>
                                     <input class="margin-top-0" type="checkbox" name="hideData" value="hostId:{_id}" title="选择">
                                 </td>
-                                <td class="hover-pointer" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
+                                <td>
                                     <div class="row">
                                         <div class="col-lg-2"><span class="caret"></span></div>
-                                        <div class="col-lg-5">{ip}</div>
-                                        <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
+                                        <div class="col-lg-5">
+                                            <a href="javascript:getServiceByIp('{_id}')">{ip}</a>
+                                        </div>
+                                        <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="部门名称 : {offices}">
                                             <small class="italic">
 												<i>
-													{@substr data="{businessName}" start="0" len="3"}{/substr}
+													{@substr data="{offices}" start="0" len="3"}{/substr}
 												</i>
 											</small>
                                         </div>
@@ -55,14 +57,11 @@
                                     <a class="btn btn-info btn-xs" href="javascript:deleteAsset('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
                                 </td>
                             </tr>
-                            <tr class="collapse" id="{_id}">
+                            <tr class="collapse" id="hostService_{_id}">
                                 <td colspan="4">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal">
-
-                                            </dl>
-                                        </div>
+                                    <div id="item_{_id}" class="row">
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6"></div>
                                     </div>
                                 </td>
                             </tr>{~n} {/stdRes.data}
@@ -80,7 +79,7 @@
                     </a>
                 </div>
                 <div class="col-lg-12 text-center">
-                    {>"layouts/basePage" /}
+                    <!-- {>"layouts/basePage" /} -->
                 </div>
             </form>
         </div>
@@ -95,30 +94,39 @@
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
-
-        function getNoteById(noteId) {
-            var target = $("#" + noteId + "_notes");
-            if (target.attr("data-clicked") == "false") {
-                $.get("/user/note/" + noteId, function(data) {
-                    var note = data.stdRes.data;
-                    var result = "";
-                    for (var i = 0; i < note.length; i++) {
-                        result += '<dt title="' + note[i].noteName + '">' + note[i].noteName + '</dt><dd>' + note[i].noteValue + '</dd>';
+        function getServiceByIp(id){
+            if($("#hostService_"+id).css('display') == 'none'){
+                $.get("/user/getServiceInfoByHostId/" + id, function(data) {
+                    if (data.err) {
+                        console.log(err);
+                    } else {                  
+                        var itemBox = $("#item_"+id);
+                        var tmp = itemBox.clone();
+                        itemBox.empty();
+                        for(var i in data.data){
+                            var s = data.data[i];
+                            var h = tmp.clone().children();
+                            itemBox.append($(h.get(0)).text(s.url.length<=45?s.url:s.url.substr(1,45)+"..."));
+                            itemBox.append($(h.get(1)).text(s.serviceName));
+                        }
+                        $("#hostService_"+id).show();
                     }
-                    target.attr("data-clicked", "true");
-                    target.html(result);
                 });
+            }else{
+                $("#hostService_"+id).hide()
             }
+            
         }
-
         function deleteAsset(hostId) {
             $.get("/user/deleteAsset/" + hostId, function(data) {
                 if (data.err) {
                     console.log(err);
                 } else {
+                    $("#hostService_"+hostId).hide(500, function() {
+                        $(this).remove();
+                    });
                     $("#" + hostId + "_block").hide(500, function() {
                         $(this).remove();
-                        $("#_" + hostId).remove();
                     });
                 }
             });

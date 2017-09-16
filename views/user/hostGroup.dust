@@ -39,19 +39,19 @@
                                 <td class="hover-pointer" >
                                     <div class="row">
                                         <div class="col-lg-2"><span class="caret"></span></div>
-                                        <div class="col-lg-5"><a href="http://{ip}" target="_blank">{ip}</a></div>
-                                        <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="业务名称 : {businessName}">
+                                        <div class="col-lg-5"><a href="javascript:getServiceInfoByHostId('{_id}')">{ip}</a></div>
+                                        <div class="col-lg-3" data-toggle="tooltip" data-placement="right" title="部门名称 : {offices}">
                                             <small class="italic" data-toggle="collapse" href="#{_id}" onclick="getNoteById('{_id}')" aria-expanded="false" aria-controls="{_id}">
                                                 <i>
-                                                  {@substr data="{businessName}" start="0" len="4"}{/substr}
+                                                  {@substr data="{offices}" start="0" len="4"}{/substr}
                                                 </i>
                                             </small>
                                         </div>
                                         <div class="col-lg-2">
                                             <i id="{_id}_isAliveSymbol" class='glyphicon
-                      {?isAlive} glyphicon-eye-open text-success{/isAlive}
-                      {^isAlive} glyphicon-eye-close{/isAlive}'>
-                      </i>
+                                            {?isAlive} glyphicon-eye-open text-success{/isAlive}
+                                            {^isAlive} glyphicon-eye-close{/isAlive}'>
+                                            </i>
                                         </div>
 
                                     </div>
@@ -61,15 +61,8 @@
                                     <a class="btn btn-info btn-xs" href="javascript:deleteHostOwnGroup('{_id}')"><i class="glyphicon glyphicon-trash"></i></a>
                                 </td>
                             </tr>
-                            <tr class="collapse" id="{_id}">
-                                <td colspan="3">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <dl id="{_id}_notes" data-clicked="false" class="dl-horizontal">
-
-                                            </dl>
-                                        </div>
-                                    </div>
+                            <tr class="collapse" id="hostServices_{_id}">
+                                <td colspan="3" id="serviceItem_{_id}">
                                 </td>
                             </tr>{~n} {/hosts}
                         </tbody>
@@ -93,20 +86,48 @@
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
-
-        function getNoteById(noteId) {
-            var target = $("#" + noteId + "_notes");
-            if (target.attr("data-clicked") == "false") {
-                $.get("/user/note/" + noteId, function(data) {
-                    var note = data.stdRes.data;
-                    var result = "";
-                    for (var i = 0; i < note.length; i++) {
-                        result += '<dt title="' + note[i].noteName + '">' + note[i].noteName + '</dt><dd>' + note[i].noteValue + '</dd>';
+        
+        function getServiceInfoByHostId(hostId){
+            if($("#hostServices_"+hostId).css('display') == 'none'){
+                $.get("/user/getServiceInfoByHostId/" + hostId, function(data) {
+                    if (data.err) {
+                        console.log(data.message);
+                    } else {
+                        var ServiceBox = $("#hostServices_"+hostId);
+                        var html = "";
+                        for(var i in data.data){
+                            var service = data.data[i];
+                            html += '<div  class="row">'+
+                            '<div  class="col-lg-5">'+(service.url.length<=45?service.url:service.url.substr(1,45)+"...")+'</div>'+
+                            '<div  class="col-lg-5">'+service.serviceName+'</div>'+
+                            '<div  class="col-lg-2 text-right"><a href="javascript:showNote(\''+service._id+'\')"><i class="glyphicon glyphicon-chevron-down"></i></a></div>'+
+                            '<div id="noteBox_'+service._id+'" class="col-lg-12"></div></div>';                    
+                        }
+                        $("#serviceItem_"+hostId).append(html);
+                        ServiceBox.show();
                     }
-                    target.attr("data-clicked", "true");
-                    target.html(result);
+                });
+            }else{
+                $("#hostServices_"+hostId).hide();
+            }
+        }
+        function showNote(foreignId){
+            var noteBox = $("#noteBox_" + foreignId);
+            if(noteBox.children().length>0){
+                noteBox.empty();
+            }else{
+                $.get("/user/getNoteByForeignId/" + foreignId, function(data) {
+                var notes = data.data;
+                var result = '<div class="col-lg-11 col-offset-lg-1">';
+                for (var i = 0; i < notes.length; i++) {
+                    result += '<div><span title="' + notes[i].noteName + '">' + notes[i].noteName + '</span> : <span>' + notes[i].noteValue + '</span></div>';
+                }
+                result += "<br/></div>";
+                noteBox.html(result);
                 });
             }
+            
+            
         }
 
         function deleteHostOwnGroup(hostId) {

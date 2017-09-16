@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var fileUtil = require('../../utils/fileUtil')
 var cUtils = require('../../utils/commonUtils')
+var constProperties = require('../../utils/constProperties');
 var bugTemplateDao = require('../../dao/BugTemplateDao')
 var reportTemplateDao = require('../../dao/ReportTemplateDao')
 var bugReportDao = require('../../dao/BugReportDao')
@@ -185,6 +186,7 @@ router.get('/addBugPage',function(req, res, next){
             stdRes.err = true;
             stdRes.message = "get addBugPage has err!"
         }else{
+            result["urlShema"] = constProperties.urlSchema;
             stdRes.data = result
         }
         res.render('report/addBugPage', {
@@ -308,7 +310,7 @@ router.get('/editBugReport/:id',function(req, res, next){
             stdRes.err = true;
             stdRes.message = "deleteBugReport has error!" 
             res.render("report/addBugPage",{"stdRes" : stdRes})           
-        }else{
+        }else{            
             stdRes.data = result;
             res.render("report/editBugPage",{"stdRes" : stdRes})
         }

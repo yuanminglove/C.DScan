@@ -3,10 +3,13 @@ var router = express.Router();
 var Ping = require('ping-lite');
 var fileUtil = require('../../utils/fileUtil')
 var HostDao = require('../../dao/HostDao')
+var ServiceDao = require('../../dao/ServiceDao')
 var NoteDao = require('../../dao/NoteDao')
 var HostGroupDao = require('../../dao/HostGroupDao')
 var StdResponse = require('../../models/StdResponse')
 var cUtils = require('../../utils/commonUtils')
+var constProperties = require('../../utils/constProperties')
+var async = require("async");
 
 /* GET user home page. */
 router.get('/', function (req, res, next) {
@@ -20,32 +23,97 @@ router.get('/', function (req, res, next) {
 router.get('/assetsImportPage', function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Assets Import';
-
     res.render('user/assetsImportPage', {
         "stdRes": stdRes
     });
 });
 /* POST 保存导入资产数据 */
 router.post('/assetsImportPage', function (req, res, next) {
-    var stdRes = new StdResponse();
+    var stdRes = new StdResponse();    
     stdRes.title = 'Assets Import';
-    fileUtil.getMultipary(req, function (err, fields, files) {
-        fileUtil.getExecl(files.file.path, function (err, sheet) {
-            if (err) {
+    async.waterfall([
+        function(cb){
+            fileUtil.getMultipary(req, function (err, fields, files) {
+                if(err){
+                    cb(err);
+                }else{
+                    cb(null,files.file.path)
+                }
+            });
+        },function(exelFilePath, cb){
+            fileUtil.getExecl(exelFilePath, function (err, sheets) {
+                if(err){
+                    cb(err);
+                }else{
+                    cb(null,sheets)
+                }
+            });
+        },function(sheets, cb){
+            var sheet = [];
+            var sheetHead = null;
+            async.each(sheets, function(item,callback){
+                for(var line in item.data){               
+                    if(constProperties.ipSchema.test(item.data[line][0])){
+                        sheet.push(item.data[line])
+                    }else if(!sheetHead){
+                        sheetHead = item.data[line];
+                    }
+                }
+                callback(null);
+            },function(err){
+                if(err){
+                    cb(err);
+                }else{
+                    cb(null,sheet, sheetHead);
+                }
+            });
+        },function(sheet, sheetHead, cb){
+            var failData = [];
+            async.eachSeries(sheet, function(item, callback){
+                HostDao.saveLine(item, function(err,host){
+                    if(err){
+                        failData.push({"line" : item, "msg" : "HostDao.saveLine err!"});
+                        // console.log(err);
+                        callback(null);
+                    }else{
+                        ServiceDao.saveLine(item,host._id,function(err,service){
+                            if(err){
+                                console.log(err);
+                                failData.push({"line" : item, "msg" : "ServiceDao.saveLine err!"});
+                                callback(null);
+                            }else{
+                                NoteDao.saveLine(item, sheetHead, service.id,function(err){
+                                    if(err){
+                                        console.log(err);
+                                        failData.push({"line" : item, "msg" : "NoteDao.saveLine err!"});
+                                    }
+                                    callback(null);
+                                })
+                            }
+                        })
+                    }
+                })
+            },function(err){
+                if(failData.length>0){
+                    cb(failData);
+                }else{
+                    cb(null)
+                }
+            })
+        }],function(err){
+            if(err){
                 stdRes.err = true;
+                console.log(err)
                 stdRes.message = "/user/assetsImportPage ERROR!";
                 res.render('user/assetsImportPage', {
                     "stdRes": stdRes
                 });
-            } else {
-                HostDao.saveSheet(sheet);
+            }else{
                 res.render('user/assetsImportPage', {
                     "stdRes": stdRes
                 });
             }
-        });
-    });
-
+    })
 });
 /* GET 将资产从分组中删除 */
 router.get('/deleteHostOwnGroup/:id', function (req, res, next) {
@@ -66,8 +134,33 @@ router.get('/deleteHostOwnGroup/:id', function (req, res, next) {
 router.get('/deleteAsset/:id', function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Assets delete';
-    stdRes.page = cUtils.req2page(req, stdRes.page);
-    HostDao.deleteHost(req.params.id, function (err) {
+    async.waterfall([function(cb){
+        HostDao.findByHostId(req.params.id, function (err,data) {
+            if (err) {
+                cb(err)
+            }else if(!data){
+                cb("Can not find this host! ")
+            }else{
+                cb(null,data)
+            }
+        })
+    },function(host,cb){
+        ServiceDao.deleteByHostId(host._id,function(err){
+            if(err){
+                cb(err);
+            }else{
+                cb(null,host)
+            }
+        })
+    },function(host,cb){
+        HostDao.deleteHost(host._id,function(err){
+            if(err){
+                cb(err);
+            }else{
+                cb(null)
+            }
+        })
+    }],function(err){
         if (err) {
             stdRes.err = true;
             stdRes.message = "/user/deleteAsset ERROR!";
@@ -76,6 +169,7 @@ router.get('/deleteAsset/:id', function (req, res, next) {
             res.json(stdRes);
         }
     })
+    
 });
 /* GET 将资产删除 */
 router.post('/deleteAssets', function (req, res, next) {
@@ -97,12 +191,7 @@ router.post('/deleteAssets', function (req, res, next) {
 router.get('/assets', function (req, res, next) {
     var stdRes = new StdResponse();
     stdRes.title = 'Assets List';
-    stdRes.page = cUtils.req2page(req, stdRes.page);
-    stdRes.page.conditions.push({
-        "name": "groupId",
-        "value": null
-    })
-    HostDao.findByPage(stdRes.page, function (err, data, page) {
+    HostDao.findHostWithoutGroup(function (err, data) {
         if (err) {
             stdRes.err = true;
             stdRes.message = "/user/assets ERROR!";
@@ -111,7 +200,6 @@ router.get('/assets', function (req, res, next) {
             });
         } else {
             stdRes.data = data;
-            stdRes.page = page
             res.render('user/assets', {
                 "stdRes": stdRes
             });
@@ -157,7 +245,36 @@ router.post('/assets', function (req, res, next) {
         }
     })
 });
-
+/* GET 业务列表 */
+router.get('/getServiceByHostId/:id', function (req, res, next) {
+    var stdRes = new StdResponse();
+    stdRes.title = 'Assets List';
+    ServiceDao.findByHostId(req, function (err, data) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "/user/assets ERROR!";
+        } else{
+            stdRes.data = data;
+        }
+        res.render("user/services",{
+            "stdRes": stdRes
+        });
+    })
+});
+/* GET 业务列表 */
+router.get('/getServiceInfoByHostId/:id', function (req, res, next) {
+    var stdRes = new StdResponse();
+    stdRes.title = 'Assets List';
+    ServiceDao.findByHostId(req, function (err, data) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "/user/assets ERROR!";
+        } else{
+            stdRes.data = data;
+        }
+        res.json(stdRes);
+    })
+});
 /* post 获取单个分组信息 */
 router.post('/hostGroup', function (req, res, next) {
     var hostId = req.params.id;
@@ -316,7 +433,7 @@ router.get('/note/:id', function (req, res, next) {
     var hostId = req.params.id;
     var stdRes = new StdResponse();
     stdRes.title = 'Assets note';
-    NoteDao.findByhostId(hostId, function (err, data) {
+    NoteDao.findByHostId(hostId, function (err, data) {
         if (err) {
             stdRes.err = true;
             stdRes.message = "/user/note/" + noteId + " ERROR!";
@@ -331,12 +448,28 @@ router.get('/note/:id', function (req, res, next) {
         }
     })
 });
+router.get('/getNoteByForeignId/:id', function (req, res, next) {
+    var foreignId = req.params.id;
+    var stdRes = new StdResponse();
+    stdRes.title = 'Assets note';
+    NoteDao.findByForeignId(foreignId, function (err, data) {
+        if (err) {
+            stdRes.err = true;
+            stdRes.message = "/user/note/" + noteId + " ERROR!";
+            res.json(stdRes);
+        } else {
+            stdRes.data = data;
+            res.json(stdRes);
+        }
+    })
+});
+
 /* GET 资产附加信息 */
 router.get('/checkAlive/:hostId', function (req, res, next) {
     var hostId = req.params.hostId;
     var stdRes = new StdResponse();
     stdRes.title = 'Check alive';
-    HostDao.findByhostId(hostId, function (err, data) {
+    HostDao.findByHostId(hostId, function (err, data) {
         // cUtils.log(data)
         if (err) {
             stdRes.err = true;

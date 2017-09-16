@@ -2,7 +2,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var NoteScheMa = new Schema({
-    "hostId": {
+    "foreignId": {
         type: Schema.Types.ObjectId,
         index: true
     },

@@ -28,8 +28,8 @@ module.exports = {
 			cb(true);
 		}else{
 			// var excelObj = obj[0].data;//取得第一个excel表的数据
-			// console.log(excelObj);
-			cb(null,obj[0].data);
+			// console.log(obj);
+			cb(null,obj);
 		}
 		 
 	},

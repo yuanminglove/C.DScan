@@ -82,7 +82,7 @@
             describe.val(ue.getContent());
         }
         $("input[name='url']").on("change",function(){
-            var m = $(this).val().match(/^([a-zA-z]+:\/\/)?([a-zA-z0-9\.]+)(\/[^/?#;]+)*(\??)(&?[^#;]+)*#?([\s\S]+)?/);
+            var m = $(this).val().match({stdRes.data.urlShema});
             if(m[2]){
                 $.get("/user/getAssetByIp/" + m[2] ,function(data){
                     console.log(data);
